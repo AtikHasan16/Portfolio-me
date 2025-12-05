@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    text { stroke: #2ffafa; stroke-width: 2px; fill: none; font-family: "Courier New", monospace; font-weight: 900; font-size: 55px; filter: drop-shadow(0 0 2px #2ffafa); }
+    path { stroke: #2ffafa; stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  </style>
+  <!-- Optional: A background shape if needed, currently transparent -->
+  
+  <!-- The </> Text/Shape -->
+  <text x="50" y="68" text-anchor="middle">&lt;/&gt;</text>
+</svg>
