@@ -19,7 +19,7 @@ const Hero = () => {
               Just as your average{" "}
               <span className="text-primary">Front-end developer</span>, turning
               pixels into dreams{" "}
-              <span className="text-2xl">(and sometimes nightmares)</span>.
+              <span className="text-2xl">(sometimes nightmares)</span>
             </h1>
             <p className="text-gray-400 mb-8 ">
               My superpower? Finding bugs right after I push to production.

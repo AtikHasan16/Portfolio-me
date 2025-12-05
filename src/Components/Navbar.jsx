@@ -6,10 +6,10 @@ import { Link } from "react-router";
 
 const Navbar = () => {
   const navLinks = [
-    { name: "home", path: "/" },
-    { name: "works", path: "/works" },
-    { name: "about-me", path: "/about" },
-    { name: "contacts", path: "/contacts" },
+    { name: "Home", path: "/" },
+    { name: "Works", path: "/works" },
+    { name: "About-me", path: "/about" },
+    { name: "Contacts", path: "/contacts" },
   ];
 
   return (
