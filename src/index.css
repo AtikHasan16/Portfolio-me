@@ -1,0 +1,36 @@
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: true;
+  --color-primary: #2ffafa;
+}
+
+@theme {
+  --custom-a10: #005359;
+  --custom-a20: #031a30;
+  --custom-a30: #031a30;
+}
+
+.mono {
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--custom-a0);
+  background-image: radial-gradient(
+      at 0% 0%,
+      var(--custom-a10) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 150% 10%, var(--custom-a20) 0px, transparent 70%),
+    radial-gradient(at 100% 0%, var(--custom-a30) 0px, transparent 40%),
+    radial-gradient(at 0% 140%, var(--custom-a10) 0px, transparent 60%);
+  background-attachment: fixed;
+  color: white;
+  font-family: "JetBrains Mono", monospace;
+}
