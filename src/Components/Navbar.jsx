@@ -14,14 +14,14 @@ const Navbar = () => {
 
   return (
     <div className="sticky top-0 z-50 backdrop-blur-md">
-      <div className="navbar bg-transparent text-white px-4 md:px-8 py-4 max-w-7xl mx-auto">
+      <div className="navbar bg-transparent text-white  py-4 mx-auto">
         <div className="flex-1">
           <Link
             to="/"
             className="btn bg-transparent border-0 shadow-none text-3xl pl-0 "
           >
             <RiCodeSSlashLine className="text-primary text-3xl" />
-            <span className="font-bold">Atik</span>
+            <span className="font-bold">Atik Hasan</span>
           </Link>
         </div>
         <div className="flex-none hidden md:flex items-center gap-8">

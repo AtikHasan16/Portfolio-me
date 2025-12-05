@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "GreenNest",
+    "image": "project-1.png",
+    "techStack": ["React", "Firebase", "Tailwind", "Framer Motion"],
+    "description": "GreenNest is a beautifully designed single-page web application (SPA) for plant lovers who wish to create greener, healthier, and more aesthetic living spaces.",
+    "liveLink": "https://green-nest-planet.netlify.app/",
+    "repoLink": "https://github.com/AtikHasan16/Green-Nest.git"
+  },
+  {
+    "id": 2,
+    "title": "ProtectX",
+    "image": "project-1.png",
+    "techStack": ["React", "Express", "Discord.js", "Node.js"],
+    "description": "A powerful Discord anti-crash bot designed to protect servers from malicious attacks and unauthorized actions.",
+    "liveLink": "#",
+    "repoLink": "#"
+  },
+  {
+    "id": 3,
+    "title": "Kahoot Answers Viewer",
+    "image": "project-1.png",
+    "techStack": ["CSS", "Express", "Node.js"],
+    "description": "Get answers to your kahoot quiz instantly. A helpful tool for students to verify their knowledge.",
+    "liveLink": "#",
+    "repoLink": "#"
+  }
+]
