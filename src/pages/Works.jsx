@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProjectCard from "../Components/ProjectCard";
+import ProjectCard from "../components/ProjectCard";
 
 const Works = () => {
   const [projectsData, setProjectsData] = useState([]);
