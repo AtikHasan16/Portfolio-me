@@ -2,7 +2,7 @@ import React from "react";
 import { FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io5";
 
-const Contacts = () => {
+const Contact = () => {
   return (
     <div className="container mx-auto px-4 my-32">
       {/* Header */}
@@ -53,4 +53,4 @@ const Contacts = () => {
   );
 };
 
-export default Contacts;
+export default Contact;
