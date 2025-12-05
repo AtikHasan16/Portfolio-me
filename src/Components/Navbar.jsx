@@ -32,11 +32,11 @@ const Navbar = () => {
 
   return (
     <div
-      className={`fixed w-11/12 md:w-11/12 lg:w-10/12 xl:w-9/12 mx-auto top-0 left-0 right-0 z-50 backdrop-blur-md transition-all duration-300 ${
+      className={`fixed  top-0 left-0 right-0 z-50 backdrop-blur-md transition-all duration-300 ${
         isScrolled ? "bg-primary/10 shadow-lg" : "bg-transparent"
       }`}
     >
-      <div className="navbar bg-transparent text-white py-4 mx-auto">
+      <div className="navbar w-11/12 md:w-11/12 lg:w-10/12 xl:w-9/12 mx-auto bg-transparent text-white py-4">
         <div className="flex-1">
           <Link
             to="/"
