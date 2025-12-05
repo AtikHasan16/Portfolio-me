@@ -15,6 +15,10 @@ const RootLayout = () => {
       <footer>
         <Footer />
       </footer>
+      {/* Decorative Side Elements (Left Line) */}
+      <div className="fixed top-24 left- lg:left-10 w-px h-[calc(100vh-6rem)] bg-primary hidden xl:flex flex-col justify-between items-center">
+        <div className="w-2 h-6 bg-primary rounded-full"></div>
+      </div>
     </div>
   );
 };

@@ -24,7 +24,7 @@ const Projects = () => {
           to={"/works"}
           className="text-white hover:text-primary transition-colors flex items-center gap-2"
         >
-          View all <span className="font-mono">~~&gt;</span>
+          View all <span className="font-mono">&gt;</span>
         </Link>
       </div>
 
