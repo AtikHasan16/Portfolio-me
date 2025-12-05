@@ -2,18 +2,16 @@ import React from "react";
 
 const Skills = () => {
   const skillsData = {
-    Languages: ["JavaScript"],
-    Databases: ["MongoDB"],
-    Tools: [
-      "VSCode",
-      "Figma",
-      "GitHub",
-      "Git",
-      "Font Awesome",
-      "Framer Motion",
+    Languages: ["HTML", "CSS", "JavaScript"],
+    "Frameworks & Database": [
+      "Tailwind CSS",
+      "React",
+      "Next.js",
+      "Express.js",
+      "MongoDB",
     ],
-    Other: ["HTML", "CSS"],
-    Frameworks: ["React", "Next.js", "tailwind", "Express.js"],
+    Tools: ["Git", "GitHub", "Firebase", "Postman"],
+    "Soft Skills": ["Communication", "Project Management", "Teamwork"],
   };
 
   return (

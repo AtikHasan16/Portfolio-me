@@ -4,27 +4,29 @@ import Projects from "../Components/Projects";
 import Skills from "../Components/Skills";
 import AboutMe from "../Components/AboutMe";
 import Contact from "../Components/Contact";
-
+import PageTransition from "../Components/PageTransition";
 
 const Home = () => {
   return (
-    <div>
-      <section>
-        <Hero />
-      </section>
-      <section>
-        <Projects />
-      </section>
-      <section>
-        <Skills />
-      </section>
-      <section>
-        <AboutMe />
-      </section>
-      <section>
-        <Contact />
-      </section>
-    </div>
+    <PageTransition>
+      <div>
+        <section>
+          <Hero />
+        </section>
+        <section>
+          <Projects />
+        </section>
+        <section>
+          <Skills />
+        </section>
+        <section>
+          <AboutMe />
+        </section>
+        <section>
+          <Contact />
+        </section>
+      </div>
+    </PageTransition>
   );
 };
 

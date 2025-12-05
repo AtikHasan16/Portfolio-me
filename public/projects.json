@@ -1,29 +1,49 @@
 [
   {
     "id": 1,
-    "title": "GreenNest",
+    "title": "WristLook",
     "image": "project-1.png",
-    "techStack": ["React", "Firebase", "Tailwind", "Framer Motion"],
-    "description": "GreenNest is a beautifully designed single-page web application (SPA) for plant lovers who wish to create greener, healthier, and more aesthetic living spaces.",
-    "liveLink": "https://green-nest-planet.netlify.app/",
-    "repoLink": "https://github.com/AtikHasan16/Green-Nest.git"
+    "techStack": [
+      "Next.js",
+      "NextAuth",
+      "React",
+      "Tailwind CSS",
+      "DaisyUI",
+      "Express.js",
+      "MongoDB"
+    ],
+    "description": "A watch collection platform where buyers and sellers can buy their desired watch for a very reasonable cost. Built with the latest Next.js and modern technology.",
+    "liveLink": "https://wrist-look.vercel.app/",
+    "repoLink": "https://github.com/AtikHasan16/Wrist-Look.git"
   },
   {
     "id": 2,
-    "title": "ProtectX",
-    "image": "project-1.png",
-    "techStack": ["React", "Express", "Discord.js", "Node.js"],
-    "description": "A powerful Discord anti-crash bot designed to protect servers from malicious attacks and unauthorized actions.",
-    "liveLink": "#",
-    "repoLink": "#"
+    "title": "PawMart",
+    "image": "project-2.png",
+    "techStack": [
+      "React",
+      "Tailwind CSS",
+      "Express.js",
+      "MongoDB",
+      "Firebase Auth"
+    ],
+    "description": "A community-driven platform for pet adoption and pet product sales. Connects pet owners, breeders, and shops in a centralized hub.",
+    "liveLink": "https://project-pawmart.netlify.app/",
+    "repoLink": "https://github.com/AtikHasan16/PawMart.git"
   },
   {
     "id": 3,
-    "title": "Kahoot Answers Viewer",
-    "image": "project-1.png",
-    "techStack": ["CSS", "Express", "Node.js"],
-    "description": "Get answers to your kahoot quiz instantly. A helpful tool for students to verify their knowledge.",
-    "liveLink": "#",
-    "repoLink": "#"
+    "title": "GreeNest",
+    "image": "project-3.png",
+    "techStack": [
+      "React",
+      "React Router",
+      "Tailwind CSS",
+      "Firebase Auth",
+      "Swiper.js"
+    ],
+    "description": "A responsive Single Page Application (SPA) designed for plant enthusiasts to explore indoor collections, access care guides, and book expert consultations.",
+    "liveLink": "https://green-nest-planet.netlify.app/",
+    "repoLink": "https://github.com/AtikHasan16/Green-Nest.git"
   }
 ]

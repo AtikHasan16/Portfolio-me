@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import PageTransition from "../Components/PageTransition";
 
 const Contacts = () => {
-    return (
-        <div>
-            contacts
-        </div>
-    );
+  return (
+    <PageTransition>
+      <div>contacts</div>
+    </PageTransition>
+  );
 };
 
 export default Contacts;
