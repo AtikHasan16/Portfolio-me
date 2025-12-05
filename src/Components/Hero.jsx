@@ -1,5 +1,6 @@
 import React from "react";
 import { FaQuoteLeft } from "react-icons/fa";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
 import resume from "../assets/Junior resume.pdf";
 
