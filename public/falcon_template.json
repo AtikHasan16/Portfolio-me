@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "title": "Falcon React Template Initializer",
+    "image": "https://i.ibb.co.com/nsZpmvZD/Screenshot-2025-12-13-212611.png",
+    "techStack": [
+      "React",
+      "Vite",
+      "Tailwind CSS v4",
+      "DaisyUI v5",
+      "React Router v7",
+      "React Hot Toast"
+    ],
+    "description": "The fastest way to start a production-ready React project. Pre-configured with Vite, Tailwind CSS v4, DaisyUI, and React Router v7. A professional, scalable architecture generator.",
+    "liveLink": "https://www.npmjs.com/package/vite-react-project-initializer",
+    "repoLink": "https://github.com/AtikHasan16/Falcon-React-Template.git"
+  }
+]

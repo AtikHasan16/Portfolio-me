@@ -2,6 +2,26 @@ import React, { useEffect, useState } from "react";
 import ProjectCard from "../Components/ProjectCard";
 import PageTransition from "../Components/PageTransition";
 
+const smallProjects = [
+  {
+    id: 1,
+    title: "Falcon React Template Initializer",
+    image: "https://i.ibb.co.com/nsZpmvZD/Screenshot-2025-12-13-212611.png",
+    techStack: [
+      "React",
+      "Vite",
+      "Tailwind CSS v4",
+      "DaisyUI v5",
+      "React Router v7",
+      "React Hot Toast",
+    ],
+    description:
+      "The fastest way to start a production-ready React project. Pre-configured with Vite, Tailwind CSS v4, DaisyUI, and React Router v7. A professional, scalable architecture generator.",
+    liveLink: "https://www.npmjs.com/package/vite-react-project-initializer",
+    repoLink: "https://github.com/AtikHasan16/Falcon-React-Template.git",
+  },
+];
+
 const Works = () => {
   const [projectsData, setProjectsData] = useState([]);
 
@@ -38,7 +58,9 @@ const Works = () => {
           <div className="h-px bg-primary w-20 lg:w-96 ml-4"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          
+          {smallProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
         </div>
       </div>
     </PageTransition>
