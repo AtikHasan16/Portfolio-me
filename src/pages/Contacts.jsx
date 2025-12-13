@@ -7,7 +7,7 @@ import PageTransition from "../Components/PageTransition";
 const Contacts = () => {
   return (
     <PageTransition>
-      <div className="container mx-auto px-4 py-12 min-h-screen">
+      <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -21,8 +21,13 @@ const Contacts = () => {
           {/* Left Side - Description */}
           <div>
             <p className="text-gray-300 leading-relaxed">
-              I'm interested in freelance opportunities. However, if you have
-              other request or question, don't hesitate to contact me
+              I am a dedicated software developer passionate about crafting
+              efficient and user-friendly applications. I thrive on solving
+              complex problems and am always eager to learn and adapt to new
+              technologies. I'm actively seeking freelance opportunities and
+              collaborations. If you have a project in mind, a question, or just
+              want to connect, please don't hesitate to reach out through any of
+              the provided channels.
             </p>
           </div>
 

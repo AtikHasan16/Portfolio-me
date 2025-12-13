@@ -319,13 +319,11 @@ const About = () => {
                 Languages
               </h2>
               <div className="border border-gray-700 p-6 rounded-lg bg-gray-900/30 space-y-3">
-                <div className="flex justify-between">
+                <div className="flex items-center justify-between ">
                   <span className="text-gray-300">English</span>
-                  <span className="text-gray-400 text-sm">
-                    Professional working proficiency
-                  </span>
+                  <span className="text-gray-400 text-sm">Professional</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex items-center justify-between">
                   <span className="text-gray-300">Bangla</span>
                   <span className="text-gray-400 text-sm">Native</span>
                 </div>
