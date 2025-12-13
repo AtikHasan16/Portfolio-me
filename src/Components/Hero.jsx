@@ -44,8 +44,8 @@ const Hero = () => {
         className="mt-14 lg:mt-26 max-w-2xl mx-auto border border-gray-600 p-6 relative"
       >
         <FaQuoteLeft className="absolute -top-3 left-4 bg-[#301f2a] px-1 text-2xl text-gray-400" />
-        <h3 className="text-xl lg:text-2xl font-medium text-center font-[JetBrains Mono]">
-          Sorry! My Instincts won't allow me to stop asking questions.
+        <h3 className="text-lg lg:text-xl font-medium text-center font-[JetBrains Mono]">
+          "Continuous learning is fueled by relentless inquiry; every challenge presents an opportunity for a new solution."
         </h3>
         <div className="absolute -bottom-4 right-4 bg-[#301f2a] px-2 border border-gray-600">
           - Atik Hasan
