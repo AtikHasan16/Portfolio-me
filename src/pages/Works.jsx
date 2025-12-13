@@ -38,9 +38,7 @@ const Works = () => {
           <div className="h-px bg-primary w-20 lg:w-96 ml-4"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projectsData.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+          
         </div>
       </div>
     </PageTransition>

@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "WristLook",
-    "image": "project-1.png",
+    "image": "https://i.ibb.co.com/TqT8pbpF/project-1.png",
     "techStack": [
       "Next.js",
       "NextAuth",
@@ -19,7 +19,7 @@
   {
     "id": 2,
     "title": "PawMart",
-    "image": "project-2.png",
+    "image": "https://i.ibb.co.com/1HJVHbv/Screenshot-2025-11-19-192116.png",
     "techStack": [
       "React",
       "Tailwind CSS",
@@ -34,7 +34,7 @@
   {
     "id": 3,
     "title": "GreeNest",
-    "image": "project-3.png",
+    "image": "https://i.ibb.co.com/twWnYGHZ/project-2.png",
     "techStack": [
       "React",
       "React Router",

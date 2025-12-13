@@ -1,5 +1,5 @@
 import React from "react";
-import projectImg from "../assets/project-1.png"; // Importing the single image for now
+// Importing the single image for now
 
 const ProjectCard = ({ project }) => {
   return (
@@ -7,7 +7,7 @@ const ProjectCard = ({ project }) => {
       {/* Image */}
       <div className="h-52 overflow-hidden border-b border-gray-600">
         <img
-          src={projectImg} // Using the imported image
+          src={project.image} // Using the imported image
           alt={project.title}
           className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
         />
