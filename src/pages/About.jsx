@@ -34,10 +34,7 @@ const About = () => {
               <FaEnvelope className="text-primary" />
               hasan.atik.sn@gmail.com
             </a>
-            <span className="flex items-center gap-2">
-              <FaMapMarkerAlt className="text-primary" />
-              Shihata, Melandah, Jamalpur
-            </span>
+
             <a
               href="https://github.com/AtikHasan16"
               target="_blank"
@@ -57,6 +54,10 @@ const About = () => {
               LinkedIn
             </a>
           </div>
+          <span className="flex items-center gap-2">
+            <FaMapMarkerAlt className="text-primary" />
+            Shihata, Melandah, Jamalpur
+          </span>
         </div>
 
         {/* Main Grid Layout */}
@@ -71,12 +72,12 @@ const About = () => {
               </h2>
               <div className="border border-gray-700 p-6 rounded-lg bg-gray-900/30">
                 <p className="text-gray-300 leading-relaxed">
-                  Energetic about contemporary and visually striking frontend
-                  design, as well as the development of scalable web
-                  applications. Skilled in HTML, CSS, JavaScript, React,
-                  Next.js, and Tailwind CSS for creating modern websites. Solid
-                  project management skills can assist in the timely delivery of
-                  projects.
+                  Highly motivated and energetic, I possess a strong passion for
+                  contemporary and visually striking frontend design, secure
+                  backend development, and building scalable web applications.
+                  My experience includes the successful completion of four
+                  attractive projects, complemented by solid project management
+                  skills to ensure timely delivery.
                 </p>
               </div>
             </section>
@@ -88,6 +89,77 @@ const About = () => {
                 Projects
               </h2>
               <div className="space-y-6">
+                {/* LoanLink */}
+                <div className="border border-gray-700 p-6 rounded-lg bg-gray-900/30">
+                  <div className="flex flex-wrap items-start justify-between mb-3">
+                    <h3 className="text-xl font-bold text-primary">LoanLink</h3>
+                    <span className="text-sm text-gray-400">December 2025</span>
+                  </div>
+                  <div className="flex flex-wrap gap-3 mb-3 text-sm">
+                    <a
+                      href="https://loanlink-app.netlify.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      Visit Website
+                    </a>
+                    <span className="text-gray-600">||</span>
+                    <a
+                      href="https://github.com/AtikHasan16/loanlink.git"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      Client
+                    </a>
+                    <span className="text-gray-600">|</span>
+                    <a
+                      href="https://github.com/AtikHasan16/loanlink-server.git"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      Server
+                    </a>
+                  </div>
+                  <p className="text-gray-300 mb-3">
+                    LoanLink is a comprehensive web-based platform designed to
+                    bridge the gap between microfinance institutions and
+                    borrowers. It streamlines the entire loan lifecycle—from
+                    application and verification to approval and repayment
+                    tracking—replacing chaotic manual processes with a unified,
+                    digital solution.
+                  </p>
+                  <div className="mb-3">
+                    <p className="text-sm font-semibold text-gray-400 mb-1">
+                      Features:
+                    </p>
+                    <p className="text-sm text-gray-300">
+                      <ul>
+                        <li>Responsive Design</li>
+                        <li>
+                          Theme Toggle - Seamless Dark/Light mode switching
+                        </li>
+                        <li>Secure Authentication</li>
+                        <li>Smooth Animations</li>
+                        <li>
+                          Error Handling - User-friendly error pages and
+                          notifications
+                        </li>
+                      </ul>
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-400 mb-1">
+                      Tech Stack & tools:
+                    </p>
+                    <p className="text-sm text-gray-300">
+                      ReactJs,Tailwindcss, Firebase, Firebase Admin, Framer,
+                      ExpressJs, MongoDB.
+                    </p>
+                  </div>
+                </div>
                 {/* WristLook */}
                 <div className="border border-gray-700 p-6 rounded-lg bg-gray-900/30">
                   <div className="flex flex-wrap items-start justify-between mb-3">

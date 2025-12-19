@@ -5,18 +5,18 @@ const ProjectCard = ({ project }) => {
   return (
     <div className="border border-gray-600 bg-transparent flex flex-col">
       {/* Image */}
-      <div className="h-52 overflow-hidden border-b border-gray-600">
+      <div className="h-62  overflow-hidden border-b border-gray-600">
         <img
           src={project.image} // Using the imported image
           alt={project.title}
-          className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+          className="w-full h-full object-cover"
         />
       </div>
 
       {/* Tech Stack */}
       <div className="p-2 border-b border-gray-600 text-gray-400 text-sm flex flex-wrap gap-2">
         {project.techStack.map((tech, index) => (
-          <span key={index}>{tech}</span>
+          <span key={index}>{tech.split(" ").join(",")}</span>
         ))}
       </div>
 
