@@ -1,6 +1,24 @@
 [
   {
     "id": 1,
+    "title": "LoanLink",
+    "image": "https://i.ibb.co.com/p6KKNtfm/Screenshot-2025-12-19-224526.png",
+    "techStack": [
+      "React",
+      "Firebase Auth",
+      "TanStack Query",
+      "Axios",
+      "Tailwind CSS",
+      "DaisyUI",
+      "Express.js",
+      "MongoDB"
+    ],
+    "description": "LoanLink is a comprehensive web-based platform designed to bridge the gap between microfinance institutions and borrowers. It streamlines the entire loan lifecycle—from application and verification to approval and repayment tracking—replacing chaotic manual processes with a unified, digital solution.",
+    "liveLink": "https://loanlink-app.netlify.app/",
+    "repoLink": "https://github.com/AtikHasan16/loanlink.git"
+  },
+  {
+    "id": 2,
     "title": "WristLook",
     "image": "https://i.ibb.co.com/TqT8pbpF/project-1.png",
     "techStack": [
@@ -17,7 +35,7 @@
     "repoLink": "https://github.com/AtikHasan16/Wrist-Look.git"
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "PawMart",
     "image": "https://i.ibb.co.com/1HJVHbv/Screenshot-2025-11-19-192116.png",
     "techStack": [
@@ -31,8 +49,9 @@
     "liveLink": "https://project-pawmart.netlify.app/",
     "repoLink": "https://github.com/AtikHasan16/PawMart.git"
   },
+
   {
-    "id": 3,
+    "id": 4,
     "title": "GreeNest",
     "image": "https://i.ibb.co.com/twWnYGHZ/project-2.png",
     "techStack": [
