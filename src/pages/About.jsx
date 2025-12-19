@@ -155,7 +155,7 @@ const About = () => {
                       Tech Stack & tools:
                     </p>
                     <p className="text-sm text-gray-300">
-                      ReactJs,Tailwindcss, Firebase, Firebase Admin, Framer,
+                      ReactJs,Tailwindcss, Firebase, Tanstack Query, Firebase Admin, Framer,
                       ExpressJs, MongoDB.
                     </p>
                   </div>
