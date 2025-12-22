@@ -155,8 +155,8 @@ const About = () => {
                       Tech Stack & tools:
                     </p>
                     <p className="text-sm text-gray-300">
-                      ReactJs,Tailwindcss, Firebase, Tanstack Query, Firebase Admin, Framer,
-                      ExpressJs, MongoDB.
+                      ReactJs,Tailwindcss, Firebase, Tanstack Query, Firebase
+                      Admin, Framer, ExpressJs, MongoDB.
                     </p>
                   </div>
                 </div>
@@ -280,15 +280,17 @@ const About = () => {
                   </div>
                 </div>
 
-                {/* GreeNest */}
+                {/* LeafStore */}
                 <div className="border border-gray-700 p-6 rounded-lg bg-gray-900/30">
                   <div className="flex flex-wrap items-start justify-between mb-3">
-                    <h3 className="text-xl font-bold text-primary">GreeNest</h3>
+                    <h3 className="text-xl font-bold text-primary">
+                      LeafStore
+                    </h3>
                     <span className="text-sm text-gray-400">October 2025</span>
                   </div>
                   <div className="flex flex-wrap gap-3 mb-3 text-sm">
                     <a
-                      href="https://green-nest-planet.netlify.app/"
+                      href="https://green-earth-initiative-ai.netlify.app/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-primary hover:underline"
