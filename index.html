@@ -52,6 +52,67 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://portfolio-atikhasan.netlify.app/#person",
+            "name": "Atik Hasan",
+            "jobTitle": "Front-End Developer",
+            "description": "Creative Front-End Developer specializing in modern web technologies",
+            "url": "https://portfolio-atikhasan.netlify.app/",
+            "image": "https://portfolio-atikhasan.netlify.app/src/assets/project-1.png",
+            "sameAs": ["https://github.com/AtikHasan16"],
+            "knowsAbout": [
+              "React",
+              "JavaScript",
+              "Node.js",
+              "Tailwind CSS",
+              "Front-End Development",
+              "Web Development"
+            ],
+            "hasOccupation": {
+              "@type": "Occupation",
+              "name": "Front-End Developer",
+              "occupationLocation": {
+                "@type": "Country",
+                "name": "Bangladesh"
+              },
+              "skills": "React, JavaScript, Node.js, Tailwind CSS, HTML, CSS"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://portfolio-atikhasan.netlify.app/#website",
+            "url": "https://portfolio-atikhasan.netlify.app/",
+            "name": "Atik Hasan Portfolio",
+            "description": "Creative Front-End Developer specializing in modern web technologies. Portfolio showcasing projects built with React, Node.js, and Tailwind CSS.",
+            "publisher": {
+              "@id": "https://portfolio-atikhasan.netlify.app/#person"
+            },
+            "inLanguage": "en-US"
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "https://portfolio-atikhasan.netlify.app/#profilepage",
+            "url": "https://portfolio-atikhasan.netlify.app/",
+            "name": "Atik Hasan | Front-End Developer",
+            "isPartOf": {
+              "@id": "https://portfolio-atikhasan.netlify.app/#website"
+            },
+            "about": {
+              "@id": "https://portfolio-atikhasan.netlify.app/#person"
+            },
+            "description": "Creative Front-End Developer specializing in modern web technologies. Portfolio showcasing projects built with React, Node.js, and Tailwind CSS.",
+            "inLanguage": "en-US"
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
