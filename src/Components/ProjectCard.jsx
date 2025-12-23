@@ -5,11 +5,11 @@ const ProjectCard = ({ project }) => {
   return (
     <div className="border border-gray-600 bg-transparent flex flex-col">
       {/* Image */}
-      <div className="h-62  overflow-hidden border-b border-gray-600">
+      <div className="  overflow-hidden border-b border-gray-600">
         <img
           src={project.image} // Using the imported image
           alt={project.title}
-          className="w-full h-full object-cover"
+          className="w-full"
         />
       </div>
 

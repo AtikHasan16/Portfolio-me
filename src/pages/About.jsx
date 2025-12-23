@@ -135,7 +135,7 @@ const About = () => {
                     <p className="text-sm font-semibold text-gray-400 mb-1">
                       Features:
                     </p>
-                    <p className="text-sm text-gray-300">
+                    <div className="text-sm text-gray-300">
                       <ul>
                         <li>Responsive Design</li>
                         <li>
@@ -148,7 +148,7 @@ const About = () => {
                           notifications
                         </li>
                       </ul>
-                    </p>
+                    </div>
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-gray-400 mb-1">
