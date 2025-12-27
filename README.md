@@ -7,6 +7,9 @@ A modern, fast, and customizable portfolio website built with React. **Feel free
 ![Vite](https://img.shields.io/badge/Vite-7.2.4-646CFF?style=for-the-badge&logo=vite)
 ![Tailwind](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?style=for-the-badge&logo=tailwind-css)
 
+## Preview: 
+![portfolio banner](https://raw.githubusercontent.com/AtikHasan16/GitHub-banner/refs/heads/main/portfolio-atikhasan.netlify.app_.png)
+
 ## ✨ Why Use This Template?
 
 - 🎨 **Modern Design** - Clean, professional dark theme
