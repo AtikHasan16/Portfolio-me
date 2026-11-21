@@ -34,34 +34,38 @@ const Navbar = () => {
     return false;
   };
 
-  const currentLangObj = availableLanguages.find((l) => l.code === language) || availableLanguages[0];
+  const currentLangObj =
+    availableLanguages.find((l) => l.code === language) ||
+    availableLanguages[0];
 
   return (
     <nav
       aria-label="Main Navigation"
       className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md transition-all duration-300 ${
-        isScrolled ? "bg-base-300/90 shadow-xl border-b border-primary/20 py-4" : "bg-transparent py-5"
+        isScrolled
+          ? "bg-base-300/90 shadow-xl border-b border-primary/20 py-4"
+          : "bg-transparent py-5"
       }`}
     >
       <div className="navbar w-11/12 md:w-11/12 lg:w-10/12 xl:w-9/12 mx-auto bg-transparent text-white px-0">
         <div className="flex-1">
           <Link
             to="/"
-            className="flex items-center gap-3 text-2xl md:text-3xl font-extrabold hover:text-primary transition-colors pl-0"
+            className="flex items-center gap-3 text-xl md:text-2xl font-extrabold hover:text-primary transition-colors pl-0"
           >
-            <RiCodeSSlashLine className="text-primary text-3xl md:text-4xl" />
+            <RiCodeSSlashLine className="text-primary text-2xl md:text-3xl" />
             <span className="tracking-tight">Atik Hasan</span>
           </Link>
         </div>
 
         {/* Desktop Menu */}
-        <div className="flex-none hidden xl:flex items-center gap-7">
-          <ul className="flex items-center gap-6 text-base font-medium">
+        <div className="flex-none hidden xl:flex items-center gap-5">
+          <ul className="flex items-center gap-4 text-sm font-medium">
             {navLinks.map((link) => (
               <li key={link.path}>
                 <Link
                   to={link.path}
-                  className={`hover:text-primary transition-all py-1.5 px-1 ${
+                  className={`hover:text-primary transition-all py-2 px-1 ${
                     isActive(link.path)
                       ? "text-primary border-b-2 border-primary font-bold"
                       : "text-gray-300 hover:text-white"
@@ -96,11 +100,15 @@ const Navbar = () => {
                     type="button"
                     onClick={() => setLanguage(lang.code)}
                     className={`flex items-center justify-between py-2 text-sm ${
-                      language === lang.code ? "text-primary font-bold bg-primary/10" : "hover:text-primary"
+                      language === lang.code
+                        ? "text-primary font-bold bg-primary/10"
+                        : "hover:text-primary"
                     }`}
                   >
                     <span>{lang.full}</span>
-                    <span className="text-xs text-gray-400 uppercase">{lang.label}</span>
+                    <span className="text-xs text-gray-400 uppercase">
+                      {lang.label}
+                    </span>
                   </button>
                 </li>
               ))}
@@ -153,7 +161,12 @@ const Navbar = () => {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h7"
+                />
               </svg>
             </div>
             <ul

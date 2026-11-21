@@ -9,6 +9,12 @@ const LOCAL_STORAGE_PROJECTS_KEY = "atik_curated_projects";
 const LOCAL_STORAGE_COMMUNITY_KEY = "atik_curated_community";
 const LOCAL_STORAGE_EXPERIENCE_KEY = "atik_curated_experience";
 const SESSION_TOKEN_KEY = "atik_supabase_auth_token";
+const SESSION_USER_EMAIL_KEY = "atik_admin_email";
+const LOCAL_PASSWORD_OVERRIDE_KEY = "atik_curator_custom_password";
+
+export const isSupabaseConfigured = () => {
+  return Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+};
 
 // Helper for authorization headers
 const getAuthHeaders = () => {
@@ -21,14 +27,69 @@ const getAuthHeaders = () => {
 };
 
 /**
- * Authenticate against Supabase Auth (DB login) or local env credentials
+ * Robust Curator Authentication:
+ * 1. Checks master credentials from .env (hasan.atik.sn@gmail.com + atik@scholarship2026 or updated password)
+ * 2. Checks/syncs with Supabase Auth in the background so you have a real JWT session
+ * 3. Also allows logging in with any password updated directly in Supabase
  */
 export const authenticateAdmin = async (email, password) => {
   const trimmedEmail = email.trim().toLowerCase();
   const trimmedPassword = password.trim();
 
-  // 1. Try Supabase Auth if credentials configured
-  if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+  const envEmail = (import.meta.env.VITE_ADMIN_EMAIL || "hasan.atik.sn@gmail.com").toLowerCase();
+  const envPass = import.meta.env.VITE_ADMIN_PASSWORD || "atik@scholarship2026";
+  const customPass = localStorage.getItem(LOCAL_PASSWORD_OVERRIDE_KEY);
+
+  const isMasterCredentialMatch =
+    trimmedEmail === envEmail && (trimmedPassword === envPass || (customPass && trimmedPassword === customPass));
+
+  // If user entered valid master/env credentials, authenticate immediately
+  if (isMasterCredentialMatch) {
+    sessionStorage.setItem("atik_admin_verified", "true");
+    sessionStorage.setItem(SESSION_USER_EMAIL_KEY, trimmedEmail);
+
+    // If Supabase is connected, attempt to sync or obtain a live database JWT
+    if (isSupabaseConfigured()) {
+      try {
+        const loginRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+          method: "POST",
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: trimmedEmail, password: trimmedPassword }),
+        });
+
+        const loginData = await loginRes.json().catch(() => ({}));
+
+        if (loginRes.ok && loginData.access_token) {
+          sessionStorage.setItem(SESSION_TOKEN_KEY, loginData.access_token);
+        } else {
+          // If the account does not exist yet on Supabase Auth, auto-provision it!
+          const signupRes = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+            method: "POST",
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: trimmedEmail, password: trimmedPassword }),
+          });
+
+          const signupData = await signupRes.json().catch(() => ({}));
+          if (signupRes.ok && signupData.access_token) {
+            sessionStorage.setItem(SESSION_TOKEN_KEY, signupData.access_token);
+          }
+        }
+      } catch (e) {
+        console.warn("Background Supabase Auth sync note:", e);
+      }
+    }
+
+    return { success: true, mode: "curator-verified" };
+  }
+
+  // If credentials did NOT match the master .env key, try verifying directly with Supabase Auth
+  if (isSupabaseConfigured()) {
     try {
       const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
         method: "POST",
@@ -42,37 +103,116 @@ export const authenticateAdmin = async (email, password) => {
         }),
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        if (data.access_token) {
-          sessionStorage.setItem(SESSION_TOKEN_KEY, data.access_token);
-          sessionStorage.setItem("atik_admin_verified", "true");
-          return { success: true, mode: "supabase" };
-        }
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.access_token) {
+        sessionStorage.setItem(SESSION_TOKEN_KEY, data.access_token);
+        sessionStorage.setItem(SESSION_USER_EMAIL_KEY, trimmedEmail);
+        sessionStorage.setItem("atik_admin_verified", "true");
+        return { success: true, mode: "database", user: data.user };
+      } else if (data.error_description === "Email not confirmed") {
+        return {
+          success: false,
+          error:
+            "Your email is not yet confirmed in Supabase. Please check your inbox for the confirmation link, or disable 'Confirm email' under Authentication -> Providers -> Email in your Supabase Dashboard.",
+        };
       } else {
-        const errData = await res.json().catch(() => ({}));
-        console.warn("Supabase auth response:", errData);
+        return {
+          success: false,
+          error: data.error_description || data.msg || "Invalid credentials. Use your database password or the key from .env.",
+        };
       }
     } catch (err) {
-      console.warn("Supabase auth request failed, trying fallback comparison:", err);
+      return {
+        success: false,
+        error: `Database connection error: ${err.message}.`,
+      };
     }
   }
 
-  // 2. Compare against configured environment variables
-  const envEmail = (import.meta.env.VITE_ADMIN_EMAIL || "hasan.atik.sn@gmail.com").toLowerCase();
-  const envPass = import.meta.env.VITE_ADMIN_PASSWORD || "atik@scholarship2026";
+  return {
+    success: false,
+    error: "Invalid curator credentials. Check your email and password, or use the master credentials in .env.",
+  };
+};
 
-  if (trimmedEmail === envEmail && trimmedPassword === envPass) {
-    sessionStorage.setItem("atik_admin_verified", "true");
-    return { success: true, mode: "local-env" };
+/**
+ * Change Password directly in Database (Supabase Auth) and local override
+ */
+export const changeAdminPassword = async (email, oldPassword, newPassword) => {
+  const trimmedEmail = email.trim().toLowerCase();
+  const trimmedOldPass = oldPassword.trim();
+  const trimmedNewPass = newPassword.trim();
+
+  if (trimmedNewPass.length < 8) {
+    return { success: false, error: "New password must be at least 8 characters long." };
   }
 
-  return { success: false, error: "Invalid curator credentials. Access denied." };
+  // Verify old password against master env/custom or Supabase
+  const envEmail = (import.meta.env.VITE_ADMIN_EMAIL || "hasan.atik.sn@gmail.com").toLowerCase();
+  const envPass = import.meta.env.VITE_ADMIN_PASSWORD || "atik@scholarship2026";
+  const customPass = localStorage.getItem(LOCAL_PASSWORD_OVERRIDE_KEY);
+
+  const isOldPasswordMatch =
+    trimmedEmail === envEmail && (trimmedOldPass === envPass || (customPass && trimmedOldPass === customPass));
+
+  // If Supabase is configured, update in Supabase Auth
+  if (isSupabaseConfigured()) {
+    try {
+      // 1. Try to authenticate old password with Supabase
+      const verifyRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: trimmedEmail, password: trimmedOldPass }),
+      });
+
+      const verifyData = await verifyRes.json().catch(() => ({}));
+
+      // If Supabase has this user and old pass is valid, update on Supabase
+      if (verifyRes.ok && verifyData.access_token) {
+        const updateRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+          method: "PUT",
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${verifyData.access_token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password: trimmedNewPass }),
+        });
+
+        if (updateRes.ok) {
+          sessionStorage.setItem(SESSION_TOKEN_KEY, verifyData.access_token);
+          localStorage.setItem(LOCAL_PASSWORD_OVERRIDE_KEY, trimmedNewPass);
+          return { success: true, mode: "database" };
+        }
+      } else if (!isOldPasswordMatch) {
+        return {
+          success: false,
+          error: "Current (old) password is incorrect.",
+        };
+      }
+    } catch (err) {
+      console.warn("Supabase password update notice:", err);
+    }
+  }
+
+  if (isOldPasswordMatch) {
+    localStorage.setItem(LOCAL_PASSWORD_OVERRIDE_KEY, trimmedNewPass);
+    return { success: true, mode: "curator-override" };
+  }
+
+  return {
+    success: false,
+    error: "Current (old) password is incorrect.",
+  };
 };
 
 // ---------------- PROJECTS ----------------
 export const getStoredProjects = async () => {
-  if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+  if (isSupabaseConfigured()) {
     try {
       const response = await fetch(`${SUPABASE_URL}/rest/v1/projects?select=*&order=created_at.desc`, {
         headers: getAuthHeaders(),
@@ -104,7 +244,7 @@ export const getStoredProjects = async () => {
 };
 
 export const saveProjectItem = async (project, isEdit = false) => {
-  if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+  if (isSupabaseConfigured()) {
     try {
       const url = isEdit
         ? `${SUPABASE_URL}/rest/v1/projects?id=eq.${project.id}`
@@ -143,7 +283,7 @@ export const saveProjectItem = async (project, isEdit = false) => {
 };
 
 export const deleteProjectItem = async (projectId) => {
-  if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+  if (isSupabaseConfigured()) {
     try {
       const res = await fetch(`${SUPABASE_URL}/rest/v1/projects?id=eq.${projectId}`, {
         method: "DELETE",
@@ -163,7 +303,7 @@ export const deleteProjectItem = async (projectId) => {
 
 // ---------------- COMMUNITY INITIATIVES ----------------
 export const getStoredCommunityProjects = async () => {
-  if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+  if (isSupabaseConfigured()) {
     try {
       const response = await fetch(`${SUPABASE_URL}/rest/v1/community_projects?select=*&order=created_at.desc`, {
         headers: getAuthHeaders(),
@@ -195,7 +335,7 @@ export const getStoredCommunityProjects = async () => {
 };
 
 export const saveCommunityItem = async (item, isEdit = false) => {
-  if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+  if (isSupabaseConfigured()) {
     try {
       const url = isEdit
         ? `${SUPABASE_URL}/rest/v1/community_projects?id=eq.${item.id}`
@@ -228,7 +368,7 @@ export const saveCommunityItem = async (item, isEdit = false) => {
 };
 
 export const deleteCommunityItem = async (itemId) => {
-  if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+  if (isSupabaseConfigured()) {
     try {
       const res = await fetch(`${SUPABASE_URL}/rest/v1/community_projects?id=eq.${itemId}`, {
         method: "DELETE",
@@ -248,7 +388,7 @@ export const deleteCommunityItem = async (itemId) => {
 
 // ---------------- EXPERIENCES ----------------
 export const getStoredExperiences = async () => {
-  if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+  if (isSupabaseConfigured()) {
     try {
       const response = await fetch(`${SUPABASE_URL}/rest/v1/experiences?select=*&order=created_at.desc`, {
         headers: getAuthHeaders(),
@@ -280,7 +420,7 @@ export const getStoredExperiences = async () => {
 };
 
 export const saveExperienceItem = async (item, isEdit = false) => {
-  if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+  if (isSupabaseConfigured()) {
     try {
       const url = isEdit
         ? `${SUPABASE_URL}/rest/v1/experiences?id=eq.${item.id}`
@@ -313,7 +453,7 @@ export const saveExperienceItem = async (item, isEdit = false) => {
 };
 
 export const deleteExperienceItem = async (itemId) => {
-  if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+  if (isSupabaseConfigured()) {
     try {
       const res = await fetch(`${SUPABASE_URL}/rest/v1/experiences?id=eq.${itemId}`, {
         method: "DELETE",

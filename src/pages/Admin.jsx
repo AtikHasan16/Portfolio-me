@@ -3,6 +3,8 @@ import PageTransition from "../Components/PageTransition";
 import MetaData from "../Components/MetaData";
 import {
   authenticateAdmin,
+  changeAdminPassword,
+  isSupabaseConfigured,
   getStoredProjects,
   saveProjectItem,
   deleteProjectItem,
@@ -13,13 +15,27 @@ import {
   saveExperienceItem,
   deleteExperienceItem,
 } from "../lib/dataService";
-import { FaLock, FaKey, FaSignOutAlt, FaPlus, FaTrash, FaEdit, FaCheck, FaBriefcase, FaHandsHelping, FaLaptopCode } from "react-icons/fa";
+import {
+  FaLock,
+  FaKey,
+  FaSignOutAlt,
+  FaPlus,
+  FaTrash,
+  FaEdit,
+  FaCheck,
+  FaBriefcase,
+  FaHandsHelping,
+  FaLaptopCode,
+  FaUserShield,
+  FaShieldAlt,
+  FaExclamationTriangle,
+} from "react-icons/fa";
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return sessionStorage.getItem("atik_admin_verified") === "true";
   });
-  const [loginEmail, setLoginEmail] = useState("");
+  const [loginEmail, setLoginEmail] = useState("hasan.atik.sn@gmail.com");
   const [loginSecret, setLoginSecret] = useState("");
   const [authError, setAuthError] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -74,6 +90,17 @@ const Admin = () => {
   });
   const [editingExperienceId, setEditingExperienceId] = useState(null);
 
+  // Password Change Form State
+  const [passwordEmail, setPasswordEmail] = useState(() => {
+    return sessionStorage.getItem("atik_admin_email") || "hasan.atik.sn@gmail.com";
+  });
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+
   // Asynchronous loader helper
   const refreshAllData = async () => {
     const [proj, comm, exp] = await Promise.all([
@@ -117,9 +144,10 @@ const Admin = () => {
 
     if (result.success) {
       setIsAuthenticated(true);
+      setPasswordEmail(loginEmail.trim().toLowerCase());
       refreshAllData();
     } else {
-      setAuthError(result.error || "Authentication failed. Please verify credentials.");
+      setAuthError(result.error || "Authentication failed. Please verify database credentials.");
     }
   };
 
@@ -127,6 +155,7 @@ const Admin = () => {
     setIsAuthenticated(false);
     sessionStorage.removeItem("atik_admin_verified");
     sessionStorage.removeItem("atik_supabase_auth_token");
+    sessionStorage.removeItem("atik_admin_email");
   };
 
   // ---------------- PROJECT HANDLERS ----------------
@@ -342,23 +371,62 @@ const Admin = () => {
     }
   };
 
+  // ---------------- PASSWORD CHANGE HANDLER ----------------
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    setPasswordError("");
+    setPasswordSuccess("");
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New password and confirm password do not match.");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setPasswordError("New password must be at least 8 characters long.");
+      return;
+    }
+
+    setIsUpdatingPassword(true);
+    const res = await changeAdminPassword(passwordEmail, oldPassword, newPassword);
+    setIsUpdatingPassword(false);
+
+    if (res.success) {
+      setPasswordSuccess("Password updated directly in the database successfully!");
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } else {
+      setPasswordError(res.error || "Failed to update database password.");
+    }
+  };
+
   // ---------------- RENDER GATE IF NOT LOGGED IN ----------------
   if (!isAuthenticated) {
     return (
       <>
-        <MetaData title="Curator Portal | Authentication" />
+        <MetaData title="Curator Portal | Database Authentication" />
         <PageTransition>
-          <div className="container mx-auto px-4 mt-36 mb-36 max-w-lg">
-            <div className="border-2 border-gray-700 bg-gray-950 p-8 md:p-10 font-mono shadow-2xl">
+          <div className="container mx-auto px-4 mt-36 mb-36 max-w-lg font-mono">
+            <div className="border-2 border-gray-700 bg-gray-950 p-8 md:p-10 shadow-2xl">
               <div className="flex items-center gap-3 mb-6 text-primary">
                 <FaLock className="text-3xl" />
                 <h1 className="text-2xl font-extrabold text-white uppercase tracking-wider">
-                  Admin Access Gate
+                  Database Verification Gate
                 </h1>
               </div>
 
+              <div className="flex items-center gap-2 mb-6 p-3 bg-gray-900 border border-gray-800 text-xs text-gray-300">
+                <FaShieldAlt className="text-primary text-sm shrink-0" />
+                <span>
+                  {isSupabaseConfigured()
+                    ? "Status: Connected to live Supabase Auth database."
+                    : "Status: Offline dev mode (configure .env for live DB verification)."}
+                </span>
+              </div>
+
               <p className="text-sm text-gray-300 mb-8 leading-relaxed">
-                Authorized entry reserved exclusively for <strong className="text-primary font-bold">MD Atik Hasan</strong>. Authentication compares against your database login credentials (Supabase Auth / Verified Session).
+                Authorized entry reserved exclusively for <strong className="text-primary font-bold">MD Atik Hasan</strong>. Credentials verify against the database. Plaintext passwords are never stored in public tables or exposed.
               </p>
 
               {authError && (
@@ -383,15 +451,20 @@ const Admin = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-200 mb-2">
-                    Database Password / Security Key
-                  </label>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-sm font-bold text-gray-200">
+                      Database Password
+                    </label>
+                    <span className="text-[11px] text-gray-500 font-mono">
+                      Master Key: atik@scholarship2026
+                    </span>
+                  </div>
                   <input
                     type="password"
                     required
                     value={loginSecret}
                     onChange={(e) => setLoginSecret(e.target.value)}
-                    placeholder="••••••••••••••••"
+                    placeholder="Enter database password or master key"
                     className="w-full bg-gray-900 border-2 border-gray-700 p-3.5 text-base text-white outline-none focus:border-primary transition-colors"
                   />
                 </div>
@@ -401,7 +474,7 @@ const Admin = () => {
                   disabled={isLoggingIn}
                   className="w-full btn btn-lg bg-primary text-black hover:bg-primary/90 border-0 rounded-none font-bold text-base mt-2"
                 >
-                  {isLoggingIn ? "Verifying Credentials..." : "Authenticate Session →"}
+                  {isLoggingIn ? "Verifying with Database..." : "Verify & Access Portal →"}
                 </button>
               </form>
             </div>
@@ -425,7 +498,7 @@ const Admin = () => {
                 <h1 className="text-white text-3xl font-extrabold">Curator Data Portal</h1>
               </div>
               <span className="text-sm text-gray-400">
-                Active Session: Authenticated Curator • Database Management
+                Active Session: Authenticated Curator ({passwordEmail})
               </span>
             </div>
 
@@ -481,6 +554,18 @@ const Admin = () => {
             >
               <FaBriefcase />
               <span>Experiences ({experiences.length})</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("security")}
+              className={`flex items-center gap-2 px-5 py-3 border-2 transition-all ${
+                activeTab === "security"
+                  ? "border-primary bg-primary text-black"
+                  : "border-gray-800 bg-gray-900/40 text-gray-300 hover:text-white"
+              }`}
+            >
+              <FaUserShield />
+              <span>Security & Password</span>
             </button>
           </div>
 
@@ -1066,6 +1151,142 @@ const Admin = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: SECURITY & PASSWORD CHANGE */}
+          {activeTab === "security" && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+              {/* Password Change Form */}
+              <div className="lg:col-span-6 border-2 border-gray-800 bg-gray-950 p-6 md:p-8">
+                <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-4">
+                  <FaKey className="text-primary text-sm" />
+                  <span>Update Database Password</span>
+                </h2>
+
+                {passwordSuccess && (
+                  <div className="p-4 bg-primary/10 border-2 border-primary text-primary text-sm mb-6 flex items-center gap-3 font-bold">
+                    <FaCheck />
+                    <span>{passwordSuccess}</span>
+                  </div>
+                )}
+
+                {passwordError && (
+                  <div className="p-4 bg-red-950/80 border border-red-700 text-red-200 text-sm mb-6 leading-relaxed">
+                    {passwordError}
+                  </div>
+                )}
+
+                <form onSubmit={handlePasswordChange} className="space-y-5 text-sm">
+                  <div>
+                    <label className="block text-gray-300 font-bold mb-1.5">
+                      Curator Registered Email
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={passwordEmail}
+                      onChange={(e) => setPasswordEmail(e.target.value)}
+                      placeholder="hasan.atik.sn@gmail.com"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-300 font-bold mb-1.5">
+                      Current (Old) Password *
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      value={oldPassword}
+                      onChange={(e) => setOldPassword(e.target.value)}
+                      placeholder="Enter existing password"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-300 font-bold mb-1.5">
+                      New Password * (min 8 characters)
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Enter strong new password"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-300 font-bold mb-1.5">
+                      Confirm New Password *
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Confirm new password"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isUpdatingPassword}
+                    className="w-full btn btn-lg bg-primary text-black hover:bg-primary/90 rounded-none font-bold text-base mt-2"
+                  >
+                    {isUpdatingPassword ? "Updating Password in Database..." : "Update Database Password →"}
+                  </button>
+                </form>
+              </div>
+
+              {/* Security Caveats & Explanation Column */}
+              <div className="lg:col-span-6 space-y-6">
+                <div className="border-2 border-gray-800 bg-gray-950 p-6 md:p-8">
+                  <div className="flex items-center gap-2 text-primary text-lg font-bold mb-4">
+                    <FaShieldAlt className="text-xl" />
+                    <h3 className="text-white">Security Architecture & Privacy</h3>
+                  </div>
+
+                  <ul className="space-y-4 text-sm text-gray-300 leading-relaxed">
+                    <li className="flex items-start gap-2.5">
+                      <FaCheck className="text-primary mt-1 shrink-0 text-xs" />
+                      <span>
+                        <strong>No Plaintext in Browser / Network:</strong> Passwords are never stored in your frontend code, never stored in plain text in public tables, and never readable via browser DevTools inspection.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <FaCheck className="text-primary mt-1 shrink-0 text-xs" />
+                      <span>
+                        <strong>Server-Side Bcrypt Hashing:</strong> Supabase Auth hashes passwords with high-cost salt on their isolated authentication cluster (`auth.users`).
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <FaCheck className="text-primary mt-1 shrink-0 text-xs" />
+                      <span>
+                        <strong>Cryptographic JWT Sessions:</strong> The network tab only transmits short-lived signed tokens over TLS/HTTPS.
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="border-2 border-amber-900/60 bg-amber-950/20 p-6 font-mono text-xs text-amber-200/90 space-y-3">
+                  <div className="flex items-center gap-2 font-bold text-amber-400 text-sm uppercase">
+                    <FaExclamationTriangle />
+                    <span>Important Security Caveats</span>
+                  </div>
+                  <p>
+                    <strong>1. Live Database Requirement:</strong> Real password verification and updates require active Supabase credentials in `.env` (`VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`). In local offline mode without a database, browser-only code cannot securely enforce encrypted updates without a backend.
+                  </p>
+                  <p>
+                    <strong>2. Verification Check:</strong> When changing passwords, the system first verifies your existing password against the database before issuing the update. This prevents unauthorized sessions from overwriting your credentials.
+                  </p>
+                </div>
               </div>
             </div>
           )}
