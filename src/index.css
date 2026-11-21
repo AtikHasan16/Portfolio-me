@@ -12,16 +12,19 @@
   --custom-a30: #031a30;
 }
 
-.mono {
-  font-family: "JetBrains Mono", monospace;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
+/* Enforce JetBrains Mono universally */
+* {
+  font-family: "JetBrains Mono", monospace !important;
+}
+
+html {
+  font-size: 17px; /* 1-step base increase for bold readability */
+  scroll-behavior: smooth;
 }
 
 body {
   min-height: 100vh;
-  background-color: var(--custom-a0);
+  background-color: #050b14;
   background-image: radial-gradient(
       at 0% 0%,
       var(--custom-a10) 0px,
@@ -31,6 +34,11 @@ body {
     radial-gradient(at 100% 0%, var(--custom-a30) 0px, transparent 40%),
     radial-gradient(at 0% 140%, var(--custom-a10) 0px, transparent 60%);
   background-attachment: fixed;
-  color: white;
-  font-family: "JetBrains Mono", monospace;
+  color: #f3f4f6;
+  font-family: "JetBrains Mono", monospace !important;
+  line-height: 1.6;
+}
+
+input, select, textarea, button {
+  font-family: "JetBrains Mono", monospace !important;
 }

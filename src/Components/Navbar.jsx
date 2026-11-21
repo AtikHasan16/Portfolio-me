@@ -12,6 +12,7 @@ const Navbar = () => {
   const navLinks = [
     { name: t("nav.home") || "Home", path: "/" },
     { name: t("nav.projects") || "Projects", path: "/projects" },
+    { name: t("nav.experience") || "Experience", path: "/experience" },
     { name: t("nav.community") || "Community", path: "/community" },
     { name: t("nav.education") || "Education", path: "/education" },
     { name: t("nav.references") || "References", path: "/references" },
@@ -39,29 +40,31 @@ const Navbar = () => {
     <nav
       aria-label="Main Navigation"
       className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md transition-all duration-300 ${
-        isScrolled ? "bg-base-300/80 shadow-lg border-b border-primary/20" : "bg-transparent"
+        isScrolled ? "bg-base-300/90 shadow-xl border-b border-primary/20 py-4" : "bg-transparent py-5"
       }`}
     >
-      <div className="navbar w-11/12 md:w-11/12 lg:w-10/12 xl:w-9/12 mx-auto bg-transparent text-white py-3">
+      <div className="navbar w-11/12 md:w-11/12 lg:w-10/12 xl:w-9/12 mx-auto bg-transparent text-white px-0">
         <div className="flex-1">
           <Link
             to="/"
-            className="flex items-center gap-2 text-2xl font-bold hover:text-primary transition-colors pl-0"
+            className="flex items-center gap-3 text-2xl md:text-3xl font-extrabold hover:text-primary transition-colors pl-0"
           >
-            <RiCodeSSlashLine className="text-primary text-3xl" />
-            <span>Atik Hasan</span>
+            <RiCodeSSlashLine className="text-primary text-3xl md:text-4xl" />
+            <span className="tracking-tight">Atik Hasan</span>
           </Link>
         </div>
 
         {/* Desktop Menu */}
-        <div className="flex-none hidden lg:flex items-center gap-6">
-          <ul className="flex items-center gap-6 text-sm font-medium">
+        <div className="flex-none hidden xl:flex items-center gap-7">
+          <ul className="flex items-center gap-6 text-base font-medium">
             {navLinks.map((link) => (
               <li key={link.path}>
                 <Link
                   to={link.path}
-                  className={`hover:text-primary transition-colors py-1 ${
-                    isActive(link.path) ? "text-primary border-b border-primary" : "text-gray-300"
+                  className={`hover:text-primary transition-all py-1.5 px-1 ${
+                    isActive(link.path)
+                      ? "text-primary border-b-2 border-primary font-bold"
+                      : "text-gray-300 hover:text-white"
                   }`}
                 >
                   <span className="text-primary mr-1">#</span>
@@ -78,14 +81,14 @@ const Navbar = () => {
               role="button"
               aria-haspopup="true"
               aria-label="Select Language"
-              className="btn btn-ghost btn-sm border border-gray-700 hover:border-primary text-sm text-gray-200 hover:text-primary"
+              className="btn btn-ghost btn-sm border border-gray-700 hover:border-primary text-sm text-gray-200 hover:text-primary px-3 py-1.5 font-bold"
             >
               <span>{currentLangObj.label}</span>
-              <IoChevronDown className="text-xs" />
+              <IoChevronDown className="text-xs ml-1" />
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content z-50 menu p-2 shadow-2xl bg-gray-900 border border-gray-700 rounded-md w-40 text-gray-200 mt-2"
+              className="dropdown-content z-50 menu p-2.5 shadow-2xl bg-gray-950 border border-gray-700 rounded-md w-44 text-gray-200 mt-2"
             >
               {availableLanguages.map((lang) => (
                 <li key={lang.code}>
@@ -105,28 +108,28 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu & Language Toggle */}
-        <div className="flex-none lg:hidden flex items-center gap-2">
+        {/* Mobile / Tablet Menu */}
+        <div className="flex-none xl:hidden flex items-center gap-3">
           {/* Mobile Language Switcher */}
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
               role="button"
               aria-label="Select Language"
-              className="btn btn-ghost btn-xs border border-gray-700 text-xs text-primary"
+              className="btn btn-ghost btn-sm border border-gray-700 text-sm text-primary px-2.5 font-bold"
             >
               {currentLangObj.label}
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content z-50 menu p-2 shadow bg-gray-900 border border-gray-700 rounded-md w-36 text-gray-200 mt-2"
+              className="dropdown-content z-50 menu p-2 shadow-2xl bg-gray-950 border border-gray-700 rounded-md w-40 text-gray-200 mt-2"
             >
               {availableLanguages.map((lang) => (
                 <li key={lang.code}>
                   <button
                     type="button"
                     onClick={() => setLanguage(lang.code)}
-                    className={`py-1 text-xs ${language === lang.code ? "text-primary font-bold" : ""}`}
+                    className={`py-2 text-sm ${language === lang.code ? "text-primary font-bold" : ""}`}
                   >
                     {lang.full}
                   </button>
@@ -145,7 +148,7 @@ const Navbar = () => {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-7 w-7"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -155,13 +158,13 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu dropdown-content mt-3 z-50 p-3 shadow-xl bg-gray-900 border border-gray-700 rounded-box w-60 text-base"
+              className="menu dropdown-content mt-3 z-50 p-4 shadow-2xl bg-gray-950 border border-gray-700 rounded-box w-64 text-base space-y-1"
             >
               {navLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className={`py-2 ${isActive(link.path) ? "text-primary font-bold" : "text-gray-300"}`}
+                    className={`py-2.5 text-base ${isActive(link.path) ? "text-primary font-bold" : "text-gray-300"}`}
                   >
                     <span className="text-primary mr-1">#</span>
                     {link.name}

@@ -2,18 +2,18 @@ import React, { useState, useEffect } from "react";
 import PageTransition from "../Components/PageTransition";
 import MetaData from "../Components/MetaData";
 import {
+  authenticateAdmin,
   getStoredProjects,
   saveProjectItem,
   deleteProjectItem,
   getStoredCommunityProjects,
   saveCommunityItem,
   deleteCommunityItem,
+  getStoredExperiences,
+  saveExperienceItem,
+  deleteExperienceItem,
 } from "../lib/dataService";
-import { FaLock, FaKey, FaSignOutAlt, FaPlus, FaTrash, FaEdit, FaCheck } from "react-icons/fa";
-
-const AUTHORIZED_EMAIL = "hasan.atik.sn@gmail.com";
-// Default access key for local / static curation session
-const DEFAULT_ACCESS_KEY = "atik@scholarship2026";
+import { FaLock, FaKey, FaSignOutAlt, FaPlus, FaTrash, FaEdit, FaCheck, FaBriefcase, FaHandsHelping, FaLaptopCode } from "react-icons/fa";
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -22,10 +22,12 @@ const Admin = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginSecret, setLoginSecret] = useState("");
   const [authError, setAuthError] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const [activeTab, setActiveTab] = useState("projects");
   const [projects, setProjects] = useState([]);
   const [communityWorks, setCommunityWorks] = useState([]);
+  const [experiences, setExperiences] = useState([]);
   const [statusMessage, setStatusMessage] = useState("");
 
   // Projects Form State
@@ -47,7 +49,7 @@ const Admin = () => {
   const [communityForm, setCommunityForm] = useState({
     id: "",
     title: "",
-    organization: "Volunteer for Bangladesh",
+    organization: "Volunteer for Bangladesh (VBD)",
     role: "",
     period: "",
     beneficiaries: "",
@@ -58,25 +60,45 @@ const Admin = () => {
   });
   const [editingCommunityId, setEditingCommunityId] = useState(null);
 
-  const loadAllData = async () => {
-    try {
-      const proj = await getStoredProjects();
-      setProjects(proj);
-      const comm = await getStoredCommunityProjects();
-      setCommunityWorks(comm);
-    } catch (e) {
-      console.error(e);
-    }
+  // Experience Form State
+  const [experienceForm, setExperienceForm] = useState({
+    id: "",
+    title: "",
+    company: "",
+    period: "",
+    location: "Jamalpur, Bangladesh",
+    badge: "Professional Experience",
+    summary: "",
+    highlights: "",
+    skills: "",
+  });
+  const [editingExperienceId, setEditingExperienceId] = useState(null);
+
+  // Asynchronous loader helper
+  const refreshAllData = async () => {
+    const [proj, comm, exp] = await Promise.all([
+      getStoredProjects(),
+      getStoredCommunityProjects(),
+      getStoredExperiences(),
+    ]);
+    setProjects(proj);
+    setCommunityWorks(comm);
+    setExperiences(exp);
   };
 
   // Check persistent session and load data if authenticated
   useEffect(() => {
     let isMounted = true;
     if (isAuthenticated) {
-      Promise.all([getStoredProjects(), getStoredCommunityProjects()]).then(([proj, comm]) => {
+      Promise.all([
+        getStoredProjects(),
+        getStoredCommunityProjects(),
+        getStoredExperiences(),
+      ]).then(([proj, comm, exp]) => {
         if (isMounted) {
           setProjects(proj);
           setCommunityWorks(comm);
+          setExperiences(exp);
         }
       });
     }
@@ -85,31 +107,26 @@ const Admin = () => {
     };
   }, [isAuthenticated]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setAuthError("");
+    setIsLoggingIn(true);
 
-    const trimmedEmail = loginEmail.trim().toLowerCase();
-    const trimmedSecret = loginSecret.trim();
+    const result = await authenticateAdmin(loginEmail, loginSecret);
+    setIsLoggingIn(false);
 
-    if (trimmedEmail !== AUTHORIZED_EMAIL.toLowerCase()) {
-      setAuthError("Unauthorized email address. Access denied.");
-      return;
+    if (result.success) {
+      setIsAuthenticated(true);
+      refreshAllData();
+    } else {
+      setAuthError(result.error || "Authentication failed. Please verify credentials.");
     }
-
-    if (trimmedSecret !== DEFAULT_ACCESS_KEY) {
-      setAuthError("Invalid security key credential.");
-      return;
-    }
-
-    setIsAuthenticated(true);
-    sessionStorage.setItem("atik_admin_verified", "true");
-    loadAllData();
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     sessionStorage.removeItem("atik_admin_verified");
+    sessionStorage.removeItem("atik_supabase_auth_token");
   };
 
   // ---------------- PROJECT HANDLERS ----------------
@@ -135,7 +152,7 @@ const Admin = () => {
     };
 
     await saveProjectItem(newProject, Boolean(editingProjectId));
-    await loadAllData();
+    await refreshAllData();
 
     setProjectForm({
       id: "",
@@ -150,7 +167,7 @@ const Admin = () => {
       description: "",
     });
     setEditingProjectId(null);
-    setStatusMessage("Project successfully saved!");
+    setStatusMessage("Project record successfully saved!");
     setTimeout(() => setStatusMessage(""), 3000);
   };
 
@@ -168,14 +185,14 @@ const Admin = () => {
       repoLink: p.repoLink || "",
       description: p.description || "",
     });
-    window.scrollTo({ top: 300, behavior: "smooth" });
+    window.scrollTo({ top: 200, behavior: "smooth" });
   };
 
   const handleDeleteProject = async (id) => {
     if (window.confirm("Are you sure you want to delete this project?")) {
       await deleteProjectItem(id);
-      await loadAllData();
-      setStatusMessage("Project deleted.");
+      await refreshAllData();
+      setStatusMessage("Project record deleted.");
       setTimeout(() => setStatusMessage(""), 3000);
     }
   };
@@ -211,12 +228,12 @@ const Admin = () => {
     };
 
     await saveCommunityItem(newCommunity, Boolean(editingCommunityId));
-    await loadAllData();
+    await refreshAllData();
 
     setCommunityForm({
       id: "",
       title: "",
-      organization: "Volunteer for Bangladesh",
+      organization: "Volunteer for Bangladesh (VBD)",
       role: "",
       period: "",
       beneficiaries: "",
@@ -226,7 +243,7 @@ const Admin = () => {
       images: "",
     });
     setEditingCommunityId(null);
-    setStatusMessage("Community initiative saved!");
+    setStatusMessage("Community initiative successfully saved!");
     setTimeout(() => setStatusMessage(""), 3000);
   };
 
@@ -235,7 +252,7 @@ const Admin = () => {
     setCommunityForm({
       id: c.id,
       title: c.title || "",
-      organization: c.organization || "",
+      organization: c.organization || "Volunteer for Bangladesh (VBD)",
       role: c.role || "",
       period: c.period || "",
       beneficiaries: c.beneficiaries || "",
@@ -244,14 +261,83 @@ const Admin = () => {
       outcomes: Array.isArray(c.outcomes) ? c.outcomes.join("\n") : "",
       images: Array.isArray(c.images) ? c.images.join("\n") : "",
     });
-    window.scrollTo({ top: 300, behavior: "smooth" });
+    window.scrollTo({ top: 200, behavior: "smooth" });
   };
 
   const handleDeleteCommunity = async (id) => {
     if (window.confirm("Are you sure you want to delete this community entry?")) {
       await deleteCommunityItem(id);
-      await loadAllData();
+      await refreshAllData();
       setStatusMessage("Community entry deleted.");
+      setTimeout(() => setStatusMessage(""), 3000);
+    }
+  };
+
+  // ---------------- EXPERIENCE HANDLERS ----------------
+  const handleExperienceSubmit = async (e) => {
+    e.preventDefault();
+    if (!experienceForm.title) return;
+
+    const formattedHighlights = experienceForm.highlights
+      ? experienceForm.highlights.split("\n").map((s) => s.trim()).filter(Boolean)
+      : [];
+
+    const formattedSkills = experienceForm.skills
+      ? experienceForm.skills.split(",").map((s) => s.trim()).filter(Boolean)
+      : [];
+
+    const newExperience = {
+      id: editingExperienceId || `exp-${Date.now()}`,
+      title: experienceForm.title,
+      company: experienceForm.company,
+      period: experienceForm.period,
+      location: experienceForm.location,
+      badge: experienceForm.badge,
+      summary: experienceForm.summary,
+      highlights: formattedHighlights,
+      skills: formattedSkills,
+    };
+
+    await saveExperienceItem(newExperience, Boolean(editingExperienceId));
+    await refreshAllData();
+
+    setExperienceForm({
+      id: "",
+      title: "",
+      company: "",
+      period: "",
+      location: "Jamalpur, Bangladesh",
+      badge: "Professional Experience",
+      summary: "",
+      highlights: "",
+      skills: "",
+    });
+    setEditingExperienceId(null);
+    setStatusMessage("Experience record saved!");
+    setTimeout(() => setStatusMessage(""), 3000);
+  };
+
+  const handleEditExperience = (exp) => {
+    setEditingExperienceId(exp.id);
+    setExperienceForm({
+      id: exp.id,
+      title: exp.title || "",
+      company: exp.company || "",
+      period: exp.period || "",
+      location: exp.location || "",
+      badge: exp.badge || "",
+      summary: exp.summary || "",
+      highlights: Array.isArray(exp.highlights) ? exp.highlights.join("\n") : "",
+      skills: Array.isArray(exp.skills) ? exp.skills.join(", ") : "",
+    });
+    window.scrollTo({ top: 200, behavior: "smooth" });
+  };
+
+  const handleDeleteExperience = async (id) => {
+    if (window.confirm("Are you sure you want to delete this experience record?")) {
+      await deleteExperienceItem(id);
+      await refreshAllData();
+      setStatusMessage("Experience record deleted.");
       setTimeout(() => setStatusMessage(""), 3000);
     }
   };
@@ -262,55 +348,60 @@ const Admin = () => {
       <>
         <MetaData title="Curator Portal | Authentication" />
         <PageTransition>
-          <div className="container mx-auto px-4 mt-32 mb-32 max-w-md">
-            <div className="border border-gray-800 bg-gray-900/40 p-8 font-mono">
+          <div className="container mx-auto px-4 mt-36 mb-36 max-w-lg">
+            <div className="border-2 border-gray-700 bg-gray-950 p-8 md:p-10 font-mono shadow-2xl">
               <div className="flex items-center gap-3 mb-6 text-primary">
-                <FaLock className="text-2xl" />
-                <h1 className="text-xl font-bold text-white uppercase tracking-wider">
+                <FaLock className="text-3xl" />
+                <h1 className="text-2xl font-extrabold text-white uppercase tracking-wider">
                   Admin Access Gate
                 </h1>
               </div>
 
-              <p className="text-xs text-gray-400 mb-6 leading-relaxed">
-                Authorized entry reserved exclusively for Atik Hasan to update academic projects and community engagement records.
+              <p className="text-sm text-gray-300 mb-8 leading-relaxed">
+                Authorized entry reserved exclusively for <strong className="text-primary font-bold">MD Atik Hasan</strong>. Authentication compares against your database login credentials (Supabase Auth / Verified Session).
               </p>
 
               {authError && (
-                <div className="p-3 bg-red-950/60 border border-red-800 text-red-300 text-xs mb-6">
+                <div className="p-4 bg-red-950/80 border border-red-700 text-red-200 text-sm mb-6 leading-relaxed">
                   {authError}
                 </div>
               )}
 
-              <form onSubmit={handleLogin} className="space-y-4 text-xs">
+              <form onSubmit={handleLogin} className="space-y-6">
                 <div>
-                  <label className="block text-gray-400 mb-1">Curator Email</label>
+                  <label className="block text-sm font-bold text-gray-200 mb-2">
+                    Curator Email Address
+                  </label>
                   <input
                     type="email"
                     required
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                     placeholder="hasan.atik.sn@gmail.com"
-                    className="w-full bg-gray-950 border border-gray-700 px-3 py-2 text-white outline-none focus:border-primary"
+                    className="w-full bg-gray-900 border-2 border-gray-700 p-3.5 text-base text-white outline-none focus:border-primary transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-400 mb-1">Secret Access Key</label>
+                  <label className="block text-sm font-bold text-gray-200 mb-2">
+                    Database Password / Security Key
+                  </label>
                   <input
                     type="password"
                     required
                     value={loginSecret}
                     onChange={(e) => setLoginSecret(e.target.value)}
-                    placeholder="••••••••••••"
-                    className="w-full bg-gray-950 border border-gray-700 px-3 py-2 text-white outline-none focus:border-primary"
+                    placeholder="••••••••••••••••"
+                    className="w-full bg-gray-900 border-2 border-gray-700 p-3.5 text-base text-white outline-none focus:border-primary transition-colors"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full btn btn-sm bg-primary text-black hover:bg-primary/90 border-0 rounded-none font-bold mt-4"
+                  disabled={isLoggingIn}
+                  className="w-full btn btn-lg bg-primary text-black hover:bg-primary/90 border-0 rounded-none font-bold text-base mt-2"
                 >
-                  Verify & Enter Portal
+                  {isLoggingIn ? "Verifying Credentials..." : "Authenticate Session →"}
                 </button>
               </form>
             </div>
@@ -323,24 +414,24 @@ const Admin = () => {
   // ---------------- RENDER DASHBOARD IF LOGGED IN ----------------
   return (
     <>
-      <MetaData title="Curator Portal | Portfolio Manager" />
+      <MetaData title="Curator Portal | Portfolio Data Manager" />
       <PageTransition>
-        <div className="container mx-auto px-4 mt-24 mb-24 max-w-6xl font-mono">
+        <div className="container mx-auto px-4 mt-28 mb-28 max-w-7xl font-mono">
           {/* Header Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-800 pb-4 mb-8 gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-gray-800 pb-6 mb-8 gap-4">
             <div>
-              <div className="flex items-center gap-2 text-primary text-xl font-bold">
-                <FaKey />
-                <h1 className="text-white text-2xl">Curator Management Portal</h1>
+              <div className="flex items-center gap-3 text-primary text-2xl font-extrabold mb-1">
+                <FaKey className="text-xl" />
+                <h1 className="text-white text-3xl font-extrabold">Curator Data Portal</h1>
               </div>
-              <span className="text-xs text-gray-500">
-                Logged in as: {AUTHORIZED_EMAIL}
+              <span className="text-sm text-gray-400">
+                Active Session: Authenticated Curator • Database Management
               </span>
             </div>
 
             <button
               onClick={handleLogout}
-              className="btn btn-sm btn-outline border-red-800 text-red-400 hover:bg-red-950 rounded-none flex items-center gap-2 text-xs"
+              className="btn btn-md btn-outline border-red-700 text-red-300 hover:bg-red-950 rounded-none flex items-center gap-2 text-sm font-bold px-5"
             >
               <FaSignOutAlt />
               <span>Exit Portal</span>
@@ -348,162 +439,176 @@ const Admin = () => {
           </div>
 
           {statusMessage && (
-            <div className="p-3 bg-primary/10 border border-primary text-primary text-xs mb-6 flex items-center gap-2">
+            <div className="p-4 bg-primary/10 border-2 border-primary text-primary text-sm mb-8 flex items-center gap-3 font-bold">
               <FaCheck />
               <span>{statusMessage}</span>
             </div>
           )}
 
           {/* Navigation Tabs */}
-          <div className="flex gap-2 mb-8 border-b border-gray-800 pb-3 text-xs">
+          <div className="flex flex-wrap gap-3 mb-10 border-b border-gray-800 pb-4 text-sm font-bold">
             <button
               onClick={() => setActiveTab("projects")}
-              className={`px-4 py-2 border transition-all ${
+              className={`flex items-center gap-2 px-5 py-3 border-2 transition-all ${
                 activeTab === "projects"
-                  ? "border-primary bg-primary text-black font-bold"
-                  : "border-gray-800 text-gray-400 hover:text-white"
+                  ? "border-primary bg-primary text-black"
+                  : "border-gray-800 bg-gray-900/40 text-gray-300 hover:text-white"
               }`}
             >
-              Technical & Systems Projects ({projects.length})
+              <FaLaptopCode />
+              <span>Technical Projects ({projects.length})</span>
             </button>
 
             <button
               onClick={() => setActiveTab("community")}
-              className={`px-4 py-2 border transition-all ${
+              className={`flex items-center gap-2 px-5 py-3 border-2 transition-all ${
                 activeTab === "community"
-                  ? "border-primary bg-primary text-black font-bold"
-                  : "border-gray-800 text-gray-400 hover:text-white"
+                  ? "border-primary bg-primary text-black"
+                  : "border-gray-800 bg-gray-900/40 text-gray-300 hover:text-white"
               }`}
             >
-              Community & Volunteering Initiatives ({communityWorks.length})
+              <FaHandsHelping />
+              <span>Community Initiatives ({communityWorks.length})</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("experience")}
+              className={`flex items-center gap-2 px-5 py-3 border-2 transition-all ${
+                activeTab === "experience"
+                  ? "border-primary bg-primary text-black"
+                  : "border-gray-800 bg-gray-900/40 text-gray-300 hover:text-white"
+              }`}
+            >
+              <FaBriefcase />
+              <span>Experiences ({experiences.length})</span>
             </button>
           </div>
 
-          {/* TAB 1: PROJECTS MANAGER */}
+          {/* TAB 1: TECHNICAL & SYSTEMS PROJECTS */}
           {activeTab === "projects" && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               {/* Form Column */}
-              <div className="lg:col-span-5 border border-gray-800 bg-gray-900/40 p-6">
-                <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <FaPlus className="text-primary text-xs" />
-                  <span>{editingProjectId ? "Edit Project" : "Add New Project"}</span>
+              <div className="lg:col-span-6 border-2 border-gray-800 bg-gray-950 p-6 md:p-8">
+                <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-4">
+                  <FaPlus className="text-primary text-sm" />
+                  <span>{editingProjectId ? "Edit Project Record" : "Add New Technical Project"}</span>
                 </h2>
 
-                <form onSubmit={handleProjectSubmit} className="space-y-4 text-xs">
+                <form onSubmit={handleProjectSubmit} className="space-y-5 text-sm">
                   <div>
-                    <label className="block text-gray-400 mb-1">Project Title *</label>
+                    <label className="block text-gray-300 font-bold mb-1.5">Project Title *</label>
                     <input
                       type="text"
                       required
                       value={projectForm.title}
                       onChange={(e) => setProjectForm({ ...projectForm, title: e.target.value })}
                       placeholder="e.g. Hardware and Server Lab Setup"
-                      className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-400 mb-1">Category</label>
+                      <label className="block text-gray-300 font-bold mb-1.5">Category</label>
                       <select
                         value={projectForm.category}
                         onChange={(e) => setProjectForm({ ...projectForm, category: e.target.value })}
-                        className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                       >
-                        <option value="technical">Technical / Web App</option>
+                        <option value="technical">Full-Stack / Web App</option>
                         <option value="academic">Academic & Systems</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className="block text-gray-400 mb-1">Date / Period</label>
+                      <label className="block text-gray-300 font-bold mb-1.5">Date / Period</label>
                       <input
                         type="text"
                         value={projectForm.date}
                         onChange={(e) => setProjectForm({ ...projectForm, date: e.target.value })}
                         placeholder="e.g. 02/2025"
-                        className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-gray-400 mb-1">Your Role</label>
+                    <label className="block text-gray-300 font-bold mb-1.5">Your Role</label>
                     <input
                       type="text"
                       value={projectForm.role}
                       onChange={(e) => setProjectForm({ ...projectForm, role: e.target.value })}
                       placeholder="e.g. Technical Associate / Lead Developer"
-                      className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-gray-400 mb-1">
+                    <label className="block text-gray-300 font-bold mb-1.5">
                       Tech Stack (comma separated)
                     </label>
                     <input
                       type="text"
                       value={projectForm.techStack}
                       onChange={(e) => setProjectForm({ ...projectForm, techStack: e.target.value })}
-                      placeholder="React, Express, MongoDB, Server Assembly"
-                      className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                      placeholder="React, Express.js, MongoDB, Server Assembly"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-gray-400 mb-1">Image URL (ImgBB or Supabase)</label>
+                    <label className="block text-gray-300 font-bold mb-1.5">Image URL</label>
                     <input
                       type="url"
                       value={projectForm.image}
                       onChange={(e) => setProjectForm({ ...projectForm, image: e.target.value })}
                       placeholder="https://..."
-                      className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-400 mb-1">Live URL (optional)</label>
+                      <label className="block text-gray-300 font-bold mb-1.5">Live Link (optional)</label>
                       <input
                         type="url"
                         value={projectForm.liveLink}
                         onChange={(e) => setProjectForm({ ...projectForm, liveLink: e.target.value })}
                         placeholder="https://..."
-                        className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-gray-400 mb-1">Repo URL (optional)</label>
+                      <label className="block text-gray-300 font-bold mb-1.5">Repository URL (optional)</label>
                       <input
                         type="url"
                         value={projectForm.repoLink}
                         onChange={(e) => setProjectForm({ ...projectForm, repoLink: e.target.value })}
                         placeholder="https://github.com/..."
-                        className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-gray-400 mb-1">Description *</label>
+                    <label className="block text-gray-300 font-bold mb-1.5">Description *</label>
                     <textarea
-                      rows={3}
+                      rows={4}
                       required
                       value={projectForm.description}
                       onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })}
-                      placeholder="Concise overview of engineering solution and outcomes..."
-                      className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                      placeholder="Detailed engineering scope, technologies implemented, and results..."
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white leading-relaxed"
                     />
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-3 pt-2">
                     <button
                       type="submit"
-                      className="btn btn-sm bg-primary text-black hover:bg-primary/90 flex-1 rounded-none font-bold"
+                      className="btn btn-md bg-primary text-black hover:bg-primary/90 flex-1 rounded-none font-bold text-base"
                     >
-                      {editingProjectId ? "Update Project" : "Publish Project"}
+                      {editingProjectId ? "Update Project Record" : "Publish Project"}
                     </button>
                     {editingProjectId && (
                       <button
@@ -523,7 +628,7 @@ const Admin = () => {
                             description: "",
                           });
                         }}
-                        className="btn btn-sm btn-ghost border border-gray-700 text-gray-400 rounded-none"
+                        className="btn btn-md btn-ghost border border-gray-700 text-gray-300 rounded-none text-base"
                       >
                         Cancel
                       </button>
@@ -533,35 +638,35 @@ const Admin = () => {
               </div>
 
               {/* List Column */}
-              <div className="lg:col-span-7 space-y-3">
-                <h2 className="text-base font-bold text-gray-300 mb-2">Curated Project Records</h2>
+              <div className="lg:col-span-6 space-y-4">
+                <h2 className="text-xl font-bold text-white mb-2">Curated Project Records ({projects.length})</h2>
                 {projects.map((p) => (
                   <div
                     key={p.id}
-                    className="border border-gray-800 bg-gray-950 p-4 flex items-start justify-between gap-4"
+                    className="border-2 border-gray-800 bg-gray-950 p-5 flex items-start justify-between gap-4 hover:border-gray-700"
                   >
                     <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs uppercase bg-gray-800 border border-gray-700 text-primary px-2 py-0.5">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xs uppercase bg-primary/10 border border-primary/40 text-primary px-2.5 py-0.5 font-bold">
                           {p.category}
                         </span>
-                        <h3 className="font-bold text-white text-sm">{p.title}</h3>
+                        <h3 className="font-bold text-white text-base">{p.title}</h3>
                       </div>
-                      <p className="text-xs text-gray-400 line-clamp-2">{p.description}</p>
-                      {p.date && <span className="text-[10px] text-gray-500 mt-1 block">{p.date}</span>}
+                      <p className="text-sm text-gray-400 line-clamp-2 leading-relaxed">{p.description}</p>
+                      {p.date && <span className="text-xs text-gray-500 mt-2 block font-mono">{p.date}</span>}
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => handleEditProject(p)}
-                        className="btn btn-xs btn-ghost text-primary border border-gray-700"
+                        className="btn btn-sm btn-ghost text-primary border border-gray-700"
                         title="Edit"
                       >
                         <FaEdit />
                       </button>
                       <button
                         onClick={() => handleDeleteProject(p.id)}
-                        className="btn btn-xs btn-ghost text-red-400 border border-gray-700"
+                        className="btn btn-sm btn-ghost text-red-400 border border-gray-700"
                         title="Delete"
                       >
                         <FaTrash />
@@ -573,77 +678,70 @@ const Admin = () => {
             </div>
           )}
 
-          {/* TAB 2: COMMUNITY MANAGER */}
+          {/* TAB 2: COMMUNITY INITIATIVES (ALL VBD EXCEPT VILLAGE CLUB) */}
           {activeTab === "community" && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              {/* Community Form */}
-              <div className="lg:col-span-5 border border-gray-800 bg-gray-900/40 p-6">
-                <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <FaPlus className="text-primary text-xs" />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+              <div className="lg:col-span-6 border-2 border-gray-800 bg-gray-950 p-6 md:p-8">
+                <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-4">
+                  <FaPlus className="text-primary text-sm" />
                   <span>
                     {editingCommunityId ? "Edit Community Entry" : "Add Community Initiative"}
                   </span>
                 </h2>
 
-                <form onSubmit={handleCommunitySubmit} className="space-y-4 text-xs">
+                <form onSubmit={handleCommunitySubmit} className="space-y-5 text-sm">
                   <div>
-                    <label className="block text-gray-400 mb-1">Project Title *</label>
+                    <label className="block text-gray-300 font-bold mb-1.5">Project Title *</label>
                     <input
                       type="text"
                       required
                       value={communityForm.title}
-                      onChange={(e) =>
-                        setCommunityForm({ ...communityForm, title: e.target.value })
-                      }
+                      onChange={(e) => setCommunityForm({ ...communityForm, title: e.target.value })}
                       placeholder="e.g. Volunteer for Bangladesh — District Board"
-                      className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-400 mb-1">Organization</label>
+                      <label className="block text-gray-300 font-bold mb-1.5">Organization</label>
                       <input
                         type="text"
                         value={communityForm.organization}
                         onChange={(e) =>
                           setCommunityForm({ ...communityForm, organization: e.target.value })
                         }
-                        placeholder="e.g. Volunteer for Bangladesh"
-                        className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                        placeholder="Volunteer for Bangladesh (VBD)"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-gray-400 mb-1">Period (Roadmap date)</label>
+                      <label className="block text-gray-300 font-bold mb-1.5">Period (Timeline)</label>
                       <input
                         type="text"
                         value={communityForm.period}
-                        onChange={(e) =>
-                          setCommunityForm({ ...communityForm, period: e.target.value })
-                        }
+                        onChange={(e) => setCommunityForm({ ...communityForm, period: e.target.value })}
                         placeholder="e.g. 2024 – 2026"
-                        className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-400 mb-1">Your Role</label>
+                      <label className="block text-gray-300 font-bold mb-1.5">Your Role</label>
                       <input
                         type="text"
                         value={communityForm.role}
-                        onChange={(e) =>
-                          setCommunityForm({ ...communityForm, role: e.target.value })
-                        }
+                        onChange={(e) => setCommunityForm({ ...communityForm, role: e.target.value })}
                         placeholder="e.g. Project Officer / Tutor"
-                        className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-gray-400 mb-1">Beneficiaries Count</label>
+                      <label className="block text-gray-300 font-bold mb-1.5">Beneficiaries Count</label>
                       <input
                         type="text"
                         value={communityForm.beneficiaries}
@@ -651,76 +749,68 @@ const Admin = () => {
                           setCommunityForm({ ...communityForm, beneficiaries: e.target.value })
                         }
                         placeholder="e.g. 1,000+ citizens"
-                        className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-gray-400 mb-1">
+                    <label className="block text-gray-300 font-bold mb-1.5">
                       UN SDGs Served (comma separated)
                     </label>
                     <input
                       type="text"
                       value={communityForm.sdgs}
-                      onChange={(e) =>
-                        setCommunityForm({ ...communityForm, sdgs: e.target.value })
-                      }
-                      placeholder="SDG 3: Good Health, SDG 4: Quality Education"
-                      className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                      onChange={(e) => setCommunityForm({ ...communityForm, sdgs: e.target.value })}
+                      placeholder="SDG 3: Good Health, SDG 4: Quality Education, SDG 11: Sustainable Communities"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-gray-400 mb-1">Brief Summary *</label>
+                    <label className="block text-gray-300 font-bold mb-1.5">Brief Summary *</label>
                     <textarea
-                      rows={2}
+                      rows={3}
                       required
                       value={communityForm.summary}
-                      onChange={(e) =>
-                        setCommunityForm({ ...communityForm, summary: e.target.value })
-                      }
-                      placeholder="Summary of responsibilities and scope..."
-                      className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                      onChange={(e) => setCommunityForm({ ...communityForm, summary: e.target.value })}
+                      placeholder="Summary of responsibilities under VBD..."
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white leading-relaxed"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-gray-400 mb-1">
-                      Key Outcomes (one per line)
+                    <label className="block text-gray-300 font-bold mb-1.5">
+                      Key Outcomes (one bullet per line)
                     </label>
                     <textarea
                       rows={3}
                       value={communityForm.outcomes}
-                      onChange={(e) =>
-                        setCommunityForm({ ...communityForm, outcomes: e.target.value })
-                      }
-                      placeholder="Coordinated field teams across 10+ projects&#10;Mobilized relief funding"
-                      className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                      onChange={(e) => setCommunityForm({ ...communityForm, outcomes: e.target.value })}
+                      placeholder="Coordinated field teams across 10+ community projects&#10;Mobilized flood relief emergency logistics"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white leading-relaxed"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-gray-400 mb-1">
+                    <label className="block text-gray-300 font-bold mb-1.5">
                       Work Photos / Image URLs (one per line)
                     </label>
                     <textarea
                       rows={2}
                       value={communityForm.images}
-                      onChange={(e) =>
-                        setCommunityForm({ ...communityForm, images: e.target.value })
-                      }
-                      placeholder="https://i.ibb.co/.../photo1.jpg&#10;https://i.ibb.co/.../photo2.jpg"
-                      className="w-full bg-gray-950 border border-gray-700 p-2 text-white"
+                      onChange={(e) => setCommunityForm({ ...communityForm, images: e.target.value })}
+                      placeholder="https://..."
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white leading-relaxed"
                     />
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-3 pt-2">
                     <button
                       type="submit"
-                      className="btn btn-sm bg-primary text-black hover:bg-primary/90 flex-1 rounded-none font-bold"
+                      className="btn btn-md bg-primary text-black hover:bg-primary/90 flex-1 rounded-none font-bold text-base"
                     >
-                      {editingCommunityId ? "Update Initiative" : "Save Initiative"}
+                      {editingCommunityId ? "Update Initiative" : "Save Community Initiative"}
                     </button>
                     {editingCommunityId && (
                       <button
@@ -730,7 +820,7 @@ const Admin = () => {
                           setCommunityForm({
                             id: "",
                             title: "",
-                            organization: "Volunteer for Bangladesh",
+                            organization: "Volunteer for Bangladesh (VBD)",
                             role: "",
                             period: "",
                             beneficiaries: "",
@@ -740,7 +830,7 @@ const Admin = () => {
                             images: "",
                           });
                         }}
-                        className="btn btn-sm btn-ghost border border-gray-700 text-gray-400 rounded-none"
+                        className="btn btn-md btn-ghost border border-gray-700 text-gray-300 rounded-none text-base"
                       >
                         Cancel
                       </button>
@@ -750,37 +840,225 @@ const Admin = () => {
               </div>
 
               {/* Community List */}
-              <div className="lg:col-span-7 space-y-3">
-                <h2 className="text-base font-bold text-gray-300 mb-2">Roadmap Records</h2>
+              <div className="lg:col-span-6 space-y-4">
+                <h2 className="text-xl font-bold text-white mb-2">Roadmap Records ({communityWorks.length})</h2>
                 {communityWorks.map((c) => (
                   <div
                     key={c.id}
-                    className="border border-gray-800 bg-gray-950 p-4 flex items-start justify-between gap-4"
+                    className="border-2 border-gray-800 bg-gray-950 p-5 flex items-start justify-between gap-4 hover:border-gray-700"
                   >
                     <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[10px] bg-primary/10 border border-primary/30 text-primary px-2 py-0.5">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xs bg-primary/10 border border-primary/40 text-primary px-2.5 py-0.5 font-bold">
                           {c.period}
                         </span>
-                        <h3 className="font-bold text-white text-sm">{c.title}</h3>
+                        <h3 className="font-bold text-white text-base">{c.title}</h3>
                       </div>
-                      <p className="text-xs text-gray-400 line-clamp-2">{c.summary}</p>
-                      <span className="text-[10px] text-gray-500 mt-1 block">
-                        Beneficiaries: {c.beneficiaries}
+                      <p className="text-sm text-gray-400 line-clamp-2 leading-relaxed">{c.summary}</p>
+                      <span className="text-xs text-gray-500 mt-2 block font-mono">
+                        Organization: {c.organization} • Reach: {c.beneficiaries}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => handleEditCommunity(c)}
-                        className="btn btn-xs btn-ghost text-primary border border-gray-700"
+                        className="btn btn-sm btn-ghost text-primary border border-gray-700"
                         title="Edit"
                       >
                         <FaEdit />
                       </button>
                       <button
                         onClick={() => handleDeleteCommunity(c.id)}
-                        className="btn btn-xs btn-ghost text-red-400 border border-gray-700"
+                        className="btn btn-sm btn-ghost text-red-400 border border-gray-700"
+                        title="Delete"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: EXPERIENCES MANAGER */}
+          {activeTab === "experience" && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+              <div className="lg:col-span-6 border-2 border-gray-800 bg-gray-950 p-6 md:p-8">
+                <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-4">
+                  <FaPlus className="text-primary text-sm" />
+                  <span>
+                    {editingExperienceId ? "Edit Experience Record" : "Add Experience Record"}
+                  </span>
+                </h2>
+
+                <form onSubmit={handleExperienceSubmit} className="space-y-5 text-sm">
+                  <div>
+                    <label className="block text-gray-300 font-bold mb-1.5">Role / Position Title *</label>
+                    <input
+                      type="text"
+                      required
+                      value={experienceForm.title}
+                      onChange={(e) => setExperienceForm({ ...experienceForm, title: e.target.value })}
+                      placeholder="e.g. Foreign Communication Executive"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-gray-300 font-bold mb-1.5">Organization / Company *</label>
+                      <input
+                        type="text"
+                        required
+                        value={experienceForm.company}
+                        onChange={(e) => setExperienceForm({ ...experienceForm, company: e.target.value })}
+                        placeholder="e.g. Softvence Agency / Spellycraft.com"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 font-bold mb-1.5">Period</label>
+                      <input
+                        type="text"
+                        value={experienceForm.period}
+                        onChange={(e) => setExperienceForm({ ...experienceForm, period: e.target.value })}
+                        placeholder="e.g. 01/2026 – 04/2026"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-gray-300 font-bold mb-1.5">Location</label>
+                      <input
+                        type="text"
+                        value={experienceForm.location}
+                        onChange={(e) => setExperienceForm({ ...experienceForm, location: e.target.value })}
+                        placeholder="e.g. Dhaka, Bangladesh"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 font-bold mb-1.5">Badge / Category</label>
+                      <input
+                        type="text"
+                        value={experienceForm.badge}
+                        onChange={(e) => setExperienceForm({ ...experienceForm, badge: e.target.value })}
+                        placeholder="e.g. Client Technical Liaison"
+                        className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-300 font-bold mb-1.5">Executive Summary *</label>
+                    <textarea
+                      rows={2}
+                      required
+                      value={experienceForm.summary}
+                      onChange={(e) => setExperienceForm({ ...experienceForm, summary: e.target.value })}
+                      placeholder="High-level overview of role and impact..."
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white leading-relaxed"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-300 font-bold mb-1.5">
+                      Key Highlights / Bullets (one per line)
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={experienceForm.highlights}
+                      onChange={(e) => setExperienceForm({ ...experienceForm, highlights: e.target.value })}
+                      placeholder="Acted as primary liaison between clients and software engineering teams&#10;Contributed over $2,500 in software sales"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white leading-relaxed"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-300 font-bold mb-1.5">
+                      Skills Applied (comma separated)
+                    </label>
+                    <input
+                      type="text"
+                      value={experienceForm.skills}
+                      onChange={(e) => setExperienceForm({ ...experienceForm, skills: e.target.value })}
+                      placeholder="Full Stack Development, Negotiation, Client Communication"
+                      className="w-full bg-gray-900 border border-gray-700 p-3.5 text-base text-white"
+                    />
+                  </div>
+
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      type="submit"
+                      className="btn btn-md bg-primary text-black hover:bg-primary/90 flex-1 rounded-none font-bold text-base"
+                    >
+                      {editingExperienceId ? "Update Experience" : "Save Experience Record"}
+                    </button>
+                    {editingExperienceId && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditingExperienceId(null);
+                          setExperienceForm({
+                            id: "",
+                            title: "",
+                            company: "",
+                            period: "",
+                            location: "Jamalpur, Bangladesh",
+                            badge: "Professional Experience",
+                            summary: "",
+                            highlights: "",
+                            skills: "",
+                          });
+                        }}
+                        className="btn btn-md btn-ghost border border-gray-700 text-gray-300 rounded-none text-base"
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+
+              {/* Experience List */}
+              <div className="lg:col-span-6 space-y-4">
+                <h2 className="text-xl font-bold text-white mb-2">Experience Records ({experiences.length})</h2>
+                {experiences.map((exp) => (
+                  <div
+                    key={exp.id}
+                    className="border-2 border-gray-800 bg-gray-950 p-5 flex items-start justify-between gap-4 hover:border-gray-700"
+                  >
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xs bg-primary/10 border border-primary/40 text-primary px-2.5 py-0.5 font-bold">
+                          {exp.badge}
+                        </span>
+                        <h3 className="font-bold text-white text-base">{exp.title}</h3>
+                      </div>
+                      <div className="text-sm text-primary font-bold">{exp.company}</div>
+                      <p className="text-sm text-gray-400 line-clamp-2 mt-1 leading-relaxed">{exp.summary}</p>
+                      <span className="text-xs text-gray-500 mt-2 block font-mono">
+                        {exp.period} • {exp.location}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        onClick={() => handleEditExperience(exp)}
+                        className="btn btn-sm btn-ghost text-primary border border-gray-700"
+                        title="Edit"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteExperience(exp.id)}
+                        className="btn btn-sm btn-ghost text-red-400 border border-gray-700"
                         title="Delete"
                       >
                         <FaTrash />

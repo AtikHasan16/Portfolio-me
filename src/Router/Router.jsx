@@ -3,6 +3,7 @@ import RootLayout from "../Layouts/RootLayout";
 import Home from "../pages/Home";
 import Projects from "../pages/Projects";
 import Community from "../pages/Community";
+import Experience from "../pages/Experience";
 import Education from "../pages/Education";
 import References from "../pages/References";
 import Contacts from "../pages/Contacts";
@@ -23,7 +24,11 @@ const router = createBrowserRouter([
       },
       {
         path: "works",
-        element: <Projects />, // Seamless fallback for previous /works links
+        element: <Projects />,
+      },
+      {
+        path: "experience",
+        element: <Experience />,
       },
       {
         path: "community",
@@ -35,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: "about",
-        element: <Education />, // Seamless fallback for previous /about links
+        element: <Education />,
       },
       {
         path: "references",

@@ -2,7 +2,8 @@
   "nav": {
     "home": "الرئيسية",
     "projects": "المشاريع",
-    "community": "المشاركة المجتمعية",
+    "experience": "الخبرات والمسيرة",
+    "community": "العمل المجتمعي",
     "education": "التعليم والشهادات",
     "references": "التوصيات الأكاديمية",
     "contacts": "التواصل",
@@ -10,71 +11,71 @@
   },
   "hero": {
     "greeting": "مرحباً، أنا",
-    "name": "محمد عتيق حسن",
-    "title": "طالب متخصص في أنظمة الحاسوب والبنية التحتية للشبكات",
-    "subheading": "خريج التعليم الفني الثانوي التقني متخصص في تشغيل الحواسيب، شبكات الاتصال، وتطوير الويب المتكامل.",
-    "objective": "أتطلع للحصول على منحة لدراسة البكالوريوس في هندسة الشبكات، هندسة الحاسوب، الاتصالات، أو أمن المعلومات.",
+    "name": "MD Atik Hasan",
+    "title": "Computer Systems & Network Infrastructure Aspirant",
+    "subheading": "خريج التعليم الفني التقني متخصص في Computer Operations و Network Systems و Full-Stack Engineering.",
+    "objective": "أتطلع للحصول على منحة لدراسة البكالوريوس في Network Engineering أو Computer Engineering أو Telecommunications أو Information Security.",
     "viewProjects": "استكشاف المشاريع",
     "viewCommunity": "الأثر المجتمعي",
-    "downloadCv": "السيرة الذاتية"
+    "downloadCv": "Academic CV"
   },
   "stats": {
-    "hscRank": "المرتبة الثانية / أكثر من 100 طالب (HSC)",
-    "sscRank": "المرتبة الثالثة / أكثر من 200 طالب (SSC)",
-    "assetAward": "مرشح نهائي إقليمي (مسابقة المهارات الوطنية ASSET)",
-    "communityReach": "أكثر من 10 مبادرات تنموية (أكثر من 1,000 مستفيد)"
+    "hscRank": "Rank 2 / 100+ (HSC Technical)",
+    "sscRank": "Rank 3 / 200+ (SSC Technical)",
+    "assetAward": "Divisional Finalist (ASSET Competition)",
+    "communityReach": "10+ SDG Initiatives (1,000+ Beneficiaries)"
   },
   "projects": {
     "title": "المشاريع التقنية",
     "viewAll": "عرض الكل",
-    "tabAll": "جميع المشاريع",
-    "tabAcademic": "الأنظمة والأبحاث الأكاديمية",
-    "tabTechnical": "تطبيقات الويب والأنظمة",
-    "live": "معاينة مباشرة",
-    "repo": "رمز المصدر",
+    "tabAll": "All Projects",
+    "tabAcademic": "Academic & Systems",
+    "tabTechnical": "Full-Stack & Web Apps",
+    "live": "Live Preview",
+    "repo": "Source Code",
     "details": "تفاصيل المشروع"
   },
   "community": {
     "title": "العمل المجتمعي والتطوعي",
-    "subtitle": "خارطة طريق توثق القيادة الشبابية والمبادرات المجتمعية الميدانية (ديسمبر 2023 - يناير 2026).",
-    "period": "ديسمبر 2023 – يناير 2026",
-    "beneficiaries": "عدد المستفيدين المباشرين",
-    "sdgLabel": "أهداف التنمية المستدامة للأمم المتحدة",
+    "subtitle": "خارطة طريق مبادرات Volunteer for Bangladesh (VBD) والعمل الشبابي الميداني.",
+    "period": "December 2023 – January 2026",
+    "beneficiaries": "Direct Beneficiaries",
+    "sdgLabel": "UN SDG Alignment",
     "outcomes": "أبرز النتائج"
   },
   "education": {
     "title": "الملف الأكاديمي",
-    "tabFormal": "التعليم الفني الرسمي",
-    "tabAchievements": "الجوائز والإنجازات",
-    "hscTitle": "شهادة الثانوية العامة التقنية (HSC) — تشغيل وصيانة الحاسوب",
-    "sscTitle": "شهادة التعليم الثانوي (SSC) — دعم تكنولوجيا المعلومات وإنترنت الأشياء",
-    "institute": "المعهد الفني الحكومي بجمالبور",
-    "gpa": "المعدل التراكمي (GPA)",
-    "rank": "الترتيب الأكاديمي",
-    "subjects": "المقررات التقنية الأساسية"
+    "tabFormal": "Formal Technical Education",
+    "tabAchievements": "Honors & Achievements",
+    "hscTitle": "Higher Secondary Certificate (HSC) — Computer Operation & Maintenance",
+    "sscTitle": "Secondary School Certificate (SSC) — IT Support & IoT",
+    "institute": "Jamalpur Govt. Technical School and College",
+    "gpa": "GPA",
+    "rank": "Academic Merit Rank",
+    "subjects": "Key Technical Curriculum"
   },
   "references": {
     "title": "التوصيات الأكاديمية",
-    "subtitle": "أساتذة ومشرفو التعليم الفني بالمعهد الحكومي بجمالبور.",
+    "subtitle": "أساتذة ومشرفو التعليم الفني بـ Jamalpur Govt. Technical School and College.",
     "contactEmail": "البريد الأكاديمي الرسمي",
     "confidentialNotice": "أرقام الهواتف موثقة ومتاحة عند الطلب الأكاديمي الرسمي."
   },
   "contacts": {
     "title": "قنوات التواصل",
-    "subtitle": "متاح للتواصل مع لجان المنح الجامعية، مسؤولي القبول الأكاديمي، والتعاون التقني.",
-    "emailBox": "البريد الإلكتروني المباشر",
-    "linkedInBox": "الملف المهني (لينكد إن)",
-    "whatsappBox": "المراسلة المباشرة",
-    "location": "جمالبور، بنغلاديش"
+    "subtitle": "متاح للتواصل مع لجان Undergraduate Scholarships ومسؤولي القبول الأكاديمي.",
+    "emailBox": "Direct Email",
+    "linkedInBox": "LinkedIn",
+    "whatsappBox": "WhatsApp",
+    "location": "Jamalpur, Bangladesh"
   },
   "admin": {
     "portalTitle": "بوابة الإدارة المعتمدة",
-    "loginNotice": "دخول مخصص لعتيق حسن فقط.",
-    "emailLabel": "البريد الإلكتروني",
-    "secretLabel": "مفتاح الأمان السري",
+    "loginNotice": "دخول مخصص لـ Atik Hasan فقط.",
+    "emailLabel": "Email Address",
+    "secretLabel": "Security Access Key",
     "loginBtn": "تسجيل الدخول",
     "logoutBtn": "تسجيل الخروج",
-    "addProject": "إضافة مشروع تقني",
-    "addCommunity": "إضافة مبادرة مجتمعية"
+    "addProject": "Add Project",
+    "addCommunity": "Add Community Initiative"
   }
 }

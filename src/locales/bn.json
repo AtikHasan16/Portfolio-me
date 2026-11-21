@@ -2,6 +2,7 @@
   "nav": {
     "home": "হোম",
     "projects": "প্রকল্পসমূহ",
+    "experience": "অভিজ্ঞতা",
     "community": "সামাজিক কার্যক্রম",
     "education": "শিক্ষাগত যোগ্যতা",
     "references": "সুপারিশপত্র",
@@ -10,71 +11,71 @@
   },
   "hero": {
     "greeting": "আসসালামু আলাইকুম, আমি",
-    "name": "মো. আতিক হাসান",
-    "title": "কম্পিউটার সিস্টেম ও নেটওয়ার্ক অবকাঠামো শিক্ষার্থী",
-    "subheading": "কম্পিউটার অপারেশন, নেটওয়ার্ক সিস্টেম এবং ফুল-স্ট্যাক ইঞ্জিনিয়ারিংয়ে উচ্চ মাধ্যমিক কারিগরি গ্র্যাজুয়েট।",
-    "objective": "নেটওয়ার্ক ইঞ্জিনিয়ারিং, কম্পিউটার ইঞ্জিনিয়ারিং, টেলিযোগাযোগ বা তথ্য নিরাপত্তা বিষয়ে উচ্চশিক্ষায় স্নাতক শ্রেণীতে ভর্তির প্রত্যাশী।",
+    "name": "MD Atik Hasan",
+    "title": "Computer Systems & Network Infrastructure Aspirant",
+    "subheading": "Computer Operation, Network Systems এবং Full-Stack Engineering-এ উচ্চ মাধ্যমিক কারিগরি গ্র্যাজুয়েট।",
+    "objective": "Network Engineering, Computer Engineering, Telecommunications অথবা Information Security বিষয়ে স্নাতক শ্রেণীতে ভর্তির প্রত্যাশী।",
     "viewProjects": "প্রকল্পসমূহ দেখুন",
     "viewCommunity": "সামাজিক প্রভাব",
-    "downloadCv": "একাডেমিক সিভি"
+    "downloadCv": "Academic CV"
   },
   "stats": {
-    "hscRank": "মেধা স্থান ২ / ১০০+ (এইচএসসি ভোকেশনাল)",
-    "sscRank": "মেধা স্থান ৩ / ২০০+ (এসএসসি ভোকেশনাল)",
-    "assetAward": "বিভাগীয় ফাইনালিস্ট (অ্যাসেট জাতীয় প্রতিযোগিতা)",
-    "communityReach": "১০+ এসডিজি উদ্যোগ (১,০০০+ সুবিধাভোগী)"
+    "hscRank": "Rank 2 / 100+ (HSC Technical)",
+    "sscRank": "Rank 3 / 200+ (SSC Technical)",
+    "assetAward": "Divisional Finalist (ASSET Competition)",
+    "communityReach": "10+ SDG Initiatives (1,000+ Beneficiaries)"
   },
   "projects": {
     "title": "প্রকল্পসমূহ",
     "viewAll": "সব দেখুন",
-    "tabAll": "সকল প্রকল্প",
-    "tabAcademic": "একাডেমিক ও সিস্টেম",
-    "tabTechnical": "ফুল-স্ট্যাক ও ওয়েব অ্যাপস",
-    "live": "লাইভ প্রিভিউ",
-    "repo": "সোর্স কোড",
+    "tabAll": "All Projects",
+    "tabAcademic": "Academic & Systems",
+    "tabTechnical": "Full-Stack & Web Apps",
+    "live": "Live Preview",
+    "repo": "Source Code",
     "details": "বিস্তারিত তথ্য"
   },
   "community": {
     "title": "সামাজিক-উদ্যোগ",
-    "subtitle": "যুব নেতৃত্ব, মাঠপর্যায়ের সমন্বয় এবং সামাজিক উন্নয়ন কর্মকাণ্ডের প্রামাণ্য রোডম্যাপ।",
-    "period": "ডিসেম্বর ২০২৩ – জানুয়ারি ২০২৬",
-    "beneficiaries": "প্রত্যক্ষ সুবিধাভোগী",
-    "sdgLabel": "জাতিসংঘ এসডিজি লক্ষ্যমাত্রা",
+    "subtitle": "Volunteer for Bangladesh (VBD) ও যুব নেতৃত্বের প্রামাণ্য রোডম্যাপ।",
+    "period": "December 2023 – January 2026",
+    "beneficiaries": "Direct Beneficiaries",
+    "sdgLabel": "UN SDG Alignment",
     "outcomes": "মূল ফলাফল"
   },
   "education": {
     "title": "একাডেমিক-প্রোফাইল",
-    "tabFormal": "প্রাতিষ্ঠানিক কারিগরি শিক্ষা",
-    "tabAchievements": "সম্মাননা ও অর্জন",
-    "hscTitle": "উচ্চ মাধ্যমিক সার্টিফিকেট (এইচএসসি) — কম্পিউটার অপারেশন অ্যান্ড মেইনটেন্যান্স",
-    "sscTitle": "মাধ্যমিক স্কুল সার্টিফিকেট (এসএসসি) — আইটি সাপোর্ট অ্যান্ড আইওটি",
-    "institute": "জামালপুর সরকারি টেকনিক্যাল স্কুল ও কলেজ",
-    "gpa": "জিপিএ",
-    "rank": "একাডেমিক মেধা স্থান",
-    "subjects": "মূল কারিগরি পাঠ্যক্রম"
+    "tabFormal": "Formal Technical Education",
+    "tabAchievements": "Honors & Achievements",
+    "hscTitle": "Higher Secondary Certificate (HSC) — Computer Operation & Maintenance",
+    "sscTitle": "Secondary School Certificate (SSC) — IT Support & IoT",
+    "institute": "Jamalpur Govt. Technical School and College",
+    "gpa": "GPA",
+    "rank": "Academic Merit Rank",
+    "subjects": "Key Technical Curriculum"
   },
   "references": {
     "title": "শিক্ষক-সুপারিশপত্র",
-    "subtitle": "জামালপুর সরকারি টেকনিক্যাল স্কুল ও কলেজের সম্মানিত শিক্ষক ও প্রশিক্ষকবৃন্দের রেফারেন্স।",
+    "subtitle": "Jamalpur Govt. Technical School and College-এর সম্মানিত শিক্ষকবৃন্দের রেফারেন্স।",
     "contactEmail": "প্রাতিষ্ঠানিক ইমেইল",
     "confidentialNotice": "শিক্ষাগত আনুষ্ঠানিক প্রয়োজনে ফোন নম্বর প্রদান করা যাবে।"
   },
   "contacts": {
     "title": "যোগাযোগ",
-    "subtitle": "স্নাতক স্কলারশিপ পর্যালোচনা, বিশ্ববিদ্যালয়ের সম্মানিত শিক্ষকবৃন্দের সাথে আলোচনা এবং কারিগরি সহযোগিতার জন্য উন্মুক্ত।",
+    "subtitle": "Undergraduate Scholarship ও একাডেমিক যোগাযোগের জন্য উন্মুক্ত।",
     "emailBox": "সরাসরি ইমেইল",
-    "linkedInBox": "প্রফেশনাল নেটওয়ার্ক",
-    "whatsappBox": "সরাসরি মেসেজ",
-    "location": "জামালপুর, বাংলাদেশ"
+    "linkedInBox": "LinkedIn",
+    "whatsappBox": "WhatsApp",
+    "location": "Jamalpur, Bangladesh"
   },
   "admin": {
     "portalTitle": "অ্যাডমিন অ্যাক্সেস গেট",
-    "loginNotice": "শুধুমাত্র আতিক হাসানের ব্যবহারের জন্য সংরক্ষিত।",
-    "emailLabel": "ইমেইল ঠিকানা",
-    "secretLabel": "সিকিউরিটি অ্যাক্সেস কী",
+    "loginNotice": "শুধুমাত্র Atik Hasan-এর ব্যবহারের জন্য সংরক্ষিত।",
+    "emailLabel": "Email Address",
+    "secretLabel": "Security Access Key",
     "loginBtn": "প্রবেশ করুন",
     "logoutBtn": "লগআউট",
-    "addProject": "নতুন টেকনিক্যাল প্রকল্প যোগ করুন",
-    "addCommunity": "নতুন সামাজিক উদ্যোগ যোগ করুন"
+    "addProject": "Add Project",
+    "addCommunity": "Add Community Initiative"
   }
 }
