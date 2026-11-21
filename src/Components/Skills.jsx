@@ -1,98 +1,100 @@
 import React from "react";
+import { FaServer, FaCode, FaDatabase, FaMicrochip, FaGlobe } from "react-icons/fa";
 
 const Skills = () => {
-  const skillsData = {
-    Languages: ["HTML", "CSS", "JavaScript"],
-    "Frameworks & Database": [
-      "Tailwind CSS",
-      "React",
-      "Next.js",
-      "Express.js",
-      "MongoDB",
-    ],
-    Tools: ["Git", "GitHub", "Firebase", "Postman"],
-    "Soft Skills": ["Communication", "Project Management", "Teamwork"],
-  };
+  const skillDomains = [
+    {
+      category: "Systems & Network Infrastructure",
+      icon: <FaServer className="text-primary" />,
+      skills: [
+        "PC & Server Assembly",
+        "Network Troubleshooting",
+        "OS Deployment & Cloning",
+        "Basic Routing & Subnetting",
+        "Hardware Diagnostics",
+        "Lab Infrastructure Setup"
+      ]
+    },
+    {
+      category: "Software & Web Engineering",
+      icon: <FaCode className="text-primary" />,
+      skills: [
+        "React",
+        "JavaScript (ES6+)",
+        "Node.js & Express.js",
+        "Tailwind CSS & daisyUI",
+        "REST APIs & TanStack Query",
+        "Git & GitHub Version Control"
+      ]
+    },
+    {
+      category: "Databases & Cloud Services",
+      icon: <FaDatabase className="text-primary" />,
+      skills: [
+        "MongoDB",
+        "Supabase (PostgreSQL, Auth, Storage)",
+        "Firebase Authentication",
+        "Postman API Testing",
+        "Cloud Deployment (Vercel, Netlify)"
+      ]
+    },
+    {
+      category: "Formal Technical Curriculum (HSC/SSC)",
+      icon: <FaMicrochip className="text-primary" />,
+      skills: [
+        "Computer Operation & Maintenance",
+        "IT Support & IoT Fundamentals",
+        "Specialized Electronics",
+        "Higher Mathematics",
+        "Applied Physics & Chemistry"
+      ]
+    },
+    {
+      category: "Leadership & Communication",
+      icon: <FaGlobe className="text-primary" />,
+      skills: [
+        "English (Fluent / Academic)",
+        "Bangla (Native)",
+        "Inter-Trade Technical Debate",
+        "Field Team Coordination (VBD)",
+        "Youth Mentoring & Tutoring"
+      ]
+    }
+  ];
 
   return (
-    <div className="container mx-auto px-4 mt-32">
+    <div className="container mx-auto px-4 mt-28">
       {/* Header */}
-      <div className="flex items-center gap-2 text-3xl font-bold mb-16">
-        <span className="text-primary">#</span>skills
-        <div className="h-px bg-primary w-20 lg:w-96 ml-4"></div>
+      <div className="flex items-center gap-3 text-2xl md:text-3xl font-bold mb-10">
+        <span className="text-primary font-mono">#</span>
+        <h2 className="text-white">technical-competencies</h2>
+        <div className="h-px bg-primary/40 flex-1 max-w-xs ml-2"></div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-16">
-        {/* Left Side - Decorative Elements */}
-        <div className="lg:w-1/3 relative hidden lg:block">
-          {/* Dot Pattern 1 */}
-          <div className="absolute top-0 left-0 grid grid-cols-5 gap-2">
-            {[...Array(25)].map((_, i) => (
-              <div key={i} className="w-1 h-1 bg-gray-500 rounded-full"></div>
-            ))}
-          </div>
-
-          {/* Geometric Shapes */}
-          <div className="absolute top-32 left-16">
-            <svg width="150" height="150" viewBox="0 0 150 150" fill="none">
-              <rect
-                x="20"
-                y="20"
-                width="60"
-                height="60"
-                stroke="#2ffafa"
-                strokeWidth="1"
-              />
-              <rect
-                x="40"
-                y="40"
-                width="60"
-                height="60"
-                stroke="#2ffafa"
-                strokeWidth="1"
-              />
-              <rect
-                x="60"
-                y="60"
-                width="60"
-                height="60"
-                stroke="#2ffafa"
-                strokeWidth="1"
-              />
-            </svg>
-          </div>
-
-          {/* Dot Pattern 2 */}
-          <div className="absolute top-64 left-32 grid grid-cols-5 gap-2">
-            {[...Array(25)].map((_, i) => (
-              <div key={i} className="w-1 h-1 bg-gray-500 rounded-full"></div>
-            ))}
-          </div>
-
-          {/* Square Outline */}
-          <div className="absolute bottom-32 right-0">
-            <svg width="80" height="100" viewBox="0 0 80 100" fill="none">
-              <rect
-                x="10"
-                y="10"
-                width="60"
-                height="80"
-                stroke="#666"
-                strokeWidth="1"
-              />
-            </svg>
-          </div>
-        </div>
-
-        {/* Right Side - Skills Grid */}
-        <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-4">
-          {Object.entries(skillsData).map(([category, skills]) => (
-            <div key={category} className="border border-gray-600 p-4">
-              <h3 className="text-white font-semibold mb-3">{category}</h3>
-              <p className="text-gray-400 text-sm">{skills.join(" ")}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {skillDomains.map((domain, index) => (
+          <div
+            key={index}
+            className="border border-gray-800 bg-gray-900/30 p-5 hover:border-primary/40 transition-colors flex flex-col"
+          >
+            <div className="flex items-center gap-3 mb-4 border-b border-gray-800 pb-3">
+              <span className="text-lg">{domain.icon}</span>
+              <h3 className="font-mono text-sm font-bold text-gray-200 uppercase tracking-wide">
+                {domain.category}
+              </h3>
             </div>
-          ))}
-        </div>
+            <div className="flex flex-wrap gap-2 mt-auto">
+              {domain.skills.map((skill, sIdx) => (
+                <span
+                  key={sIdx}
+                  className="text-xs font-mono bg-gray-800/70 border border-gray-700/60 text-gray-300 px-2.5 py-1 rounded-sm"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "community": "Community Engagement",
+    "education": "Education",
+    "references": "References",
+    "contacts": "Contacts",
+    "admin": "Portal"
+  },
+  "hero": {
+    "greeting": "Hello, I am",
+    "name": "MD Atik Hasan",
+    "title": "Computer Systems & Network Infrastructure Aspirant",
+    "subheading": "Higher secondary technical graduate specializing in computer operations, network systems, and full-stack engineering.",
+    "objective": "Seeking undergraduate admission to pursue advanced studies in Network Engineering, Computer Engineering, Telecommunications, or Information Security.",
+    "viewProjects": "Explore Projects",
+    "viewCommunity": "Community Impact",
+    "downloadCv": "Academic CV"
+  },
+  "stats": {
+    "hscRank": "Rank 2 / 100+ (HSC Technical)",
+    "sscRank": "Rank 3 / 200+ (SSC Technical)",
+    "assetAward": "Divisional Finalist (ASSET Competition)",
+    "communityReach": "10+ SDG Initiatives (1,000+ Beneficiaries)"
+  },
+  "projects": {
+    "title": "projects",
+    "viewAll": "View all",
+    "tabAll": "All Projects",
+    "tabAcademic": "Academic & Systems",
+    "tabTechnical": "Full-Stack & Web Apps",
+    "live": "Live Preview",
+    "repo": "Source Code",
+    "details": "Project Details"
+  },
+  "community": {
+    "title": "community-engagement",
+    "subtitle": "A documented roadmap of youth leadership, field coordination, and community initiatives.",
+    "period": "December 2023 – January 2026",
+    "beneficiaries": "Direct Beneficiaries",
+    "sdgLabel": "UN SDG Alignment",
+    "outcomes": "Key Outcomes"
+  },
+  "education": {
+    "title": "academic-profile",
+    "tabFormal": "Formal Technical Education",
+    "tabAchievements": "Honors & Achievements",
+    "hscTitle": "Higher Secondary Certificate (HSC) — Computer Operation & Maintenance",
+    "sscTitle": "Secondary School Certificate (SSC) — IT Support & IoT",
+    "institute": "Jamalpur Govt. Technical School and College",
+    "gpa": "GPA",
+    "rank": "Academic Merit Rank",
+    "subjects": "Key Technical Curriculum"
+  },
+  "references": {
+    "title": "faculty-endorsements",
+    "subtitle": "Academic references and instructors from Jamalpur Govt. Technical School and College.",
+    "contactEmail": "Institutional Contact",
+    "confidentialNotice": "Phone contact verified and available on formal academic request."
+  },
+  "contacts": {
+    "title": "inquiries-and-contact",
+    "subtitle": "Open to undergraduate scholarship inquiries, university faculty correspondence, and technical collaborations.",
+    "emailBox": "Direct Email",
+    "linkedInBox": "Professional Network",
+    "whatsappBox": "Direct Messaging",
+    "location": "Jamalpur, Bangladesh"
+  },
+  "admin": {
+    "portalTitle": "Curator Access Gate",
+    "loginNotice": "Authorized administrative access for Atik Hasan only.",
+    "emailLabel": "Email Address",
+    "secretLabel": "Security Access Key",
+    "loginBtn": "Authenticate Session",
+    "logoutBtn": "Sign Out",
+    "addProject": "Add Technical Project",
+    "addCommunity": "Add Community Initiative"
+  }
+}

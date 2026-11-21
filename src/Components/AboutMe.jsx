@@ -1,115 +1,84 @@
 import React from "react";
-import { FaDiscord } from "react-icons/fa";
-import { IoLogoWhatsapp } from "react-icons/io5";
 import { Link } from "react-router";
+import { FaGraduationCap, FaHandsHelping, FaLaptopCode, FaMapMarkerAlt } from "react-icons/fa";
 
 const AboutMe = () => {
   return (
-    <>
-      {/* About me section */}
-      <div className="container mx-auto px-4 mt-32">
-        {/* Header */}
-        <div className="flex items-center gap-2 text-3xl font-bold mb-12">
-          <span className="text-primary">#</span>about-me
-          <div className="h-px bg-primary w-20 lg:w-96 ml-4"></div>
-        </div>
+    <div className="container mx-auto px-4 mt-28">
+      {/* Header */}
+      <div className="flex items-center gap-3 text-2xl md:text-3xl font-bold mb-10">
+        <span className="text-primary font-mono">#</span>
+        <h2 className="text-white">academic-background</h2>
+        <div className="h-px bg-primary/40 flex-1 max-w-xs ml-2"></div>
+      </div>
 
-        <div className="flex flex-col lg:flex-row gap-16 items-start">
-          {/* Left Side - Text Content */}
-          <div className="lg:w-1/2 space-y-6">
-            <p className="text-gray-300">Hello, i'm Atik!</p>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Side: Summary Narrative */}
+        <div className="lg:col-span-7 space-y-4 text-gray-300 leading-relaxed text-sm md:text-base">
+          <p>
+            I am a technical graduate in <strong className="text-primary">Computer Operation and Maintenance</strong> from <span className="text-white font-medium">Jamalpur Govt. Technical School and College</span>, graduating with a 4.80/5.00 GPA and ranked 2nd among over 100 students in the board examination.
+          </p>
 
-            <p className="text-gray-400 leading-relaxed">
-              I'm a self-taught front-end developer based in Dhaka, Bangladesh.
-              I can develop responsive websites from scratch and raise them into
-              modern user-friendly web experiences.
-            </p>
+          <p className="text-gray-400">
+            My foundational training bridges low-level hardware diagnostics, server deployment, and structured networking with modern full-stack web software engineering (React, Node.js, Express, and MongoDB/Supabase). I enjoy diagnosing complex systems problems—from setting up 30+ physical workstations in our institutional computer lab to deploying scalable community web applications.
+          </p>
 
-            <p className="text-gray-400 leading-relaxed">
-              Transforming my creativity and knowledge into websites has been my
-              passion for over a year. I have been helping various clients to
-              establish their presence online. I always strive to learn about
-              the newest technologies and frameworks.
-            </p>
+          <p className="text-gray-400">
+            Beyond the lab, I serve on the District Board of <span className="text-white">Volunteer for Bangladesh (VBD)</span>, leading youth volunteers across 10+ community initiatives aligned with the UN Sustainable Development Goals (SDGs), and founded a free rural English language tutoring club for under-resourced children in Jamalpur.
+          </p>
 
+          <div className="pt-4 flex flex-wrap gap-4 font-mono text-sm">
             <Link
-              to="/about"
-              className="btn btn-outline border-primary text-white hover:bg-primary hover:text-black hover:border-primary rounded-none font-normal px-6 inline-flex items-center gap-2 mt-4"
+              to="/education"
+              className="btn btn-sm btn-outline border-primary text-primary hover:bg-primary hover:text-black rounded-none"
             >
-              Read more <span className="font-mono">→</span>
+              Academic Credentials →
+            </Link>
+            <Link
+              to="/community"
+              className="btn btn-sm btn-outline border-gray-700 text-gray-300 hover:border-primary hover:text-primary rounded-none"
+            >
+              Community Work →
             </Link>
           </div>
+        </div>
 
-          {/* Right Side - Decorative Elements */}
-          <div className="lg:w-1/2 relative min-h-[300px] hidden lg:block">
-            {/* Dot Pattern 1 - Top Right */}
-            <div className="absolute top-0 right-32 grid grid-cols-5 gap-2">
-              {[...Array(25)].map((_, i) => (
-                <div key={i} className="w-1 h-1 bg-gray-500 rounded-full"></div>
-              ))}
+        {/* Right Side: Key Profile Cards */}
+        <div className="lg:col-span-5 space-y-3 font-mono">
+          <div className="border border-gray-800 bg-gray-900/40 p-4 flex items-start gap-3">
+            <FaGraduationCap className="text-primary text-xl mt-1 shrink-0" />
+            <div>
+              <div className="text-white font-bold text-sm">Formal Education</div>
+              <div className="text-xs text-gray-400">HSC (Comp. Operation) & SSC (IT Support & IoT)</div>
+              <div className="text-xs text-primary/80 mt-1">GPA 4.80 (2nd Rank) & GPA 4.79 (3rd Rank)</div>
             </div>
+          </div>
 
-            {/* Dot Pattern 2 - Middle Right */}
-            <div className="absolute top-40 right-0 grid grid-cols-5 gap-2">
-              {[...Array(25)].map((_, i) => (
-                <div key={i} className="w-1 h-1 bg-gray-500 rounded-full"></div>
-              ))}
+          <div className="border border-gray-800 bg-gray-900/40 p-4 flex items-start gap-3">
+            <FaLaptopCode className="text-primary text-xl mt-1 shrink-0" />
+            <div>
+              <div className="text-white font-bold text-sm">Technical Domain Focus</div>
+              <div className="text-xs text-gray-400">Network Troubleshooting, Lab Server Setup, Web Platforms</div>
+              <div className="text-xs text-primary/80 mt-1">ASSET National Skill Competition Divisional Finalist</div>
             </div>
+          </div>
 
-            {/* Line decoration at bottom */}
-            <div className="absolute bottom-0 right-0 w-64 h-px bg-primary"></div>
+          <div className="border border-gray-800 bg-gray-900/40 p-4 flex items-start gap-3">
+            <FaHandsHelping className="text-primary text-xl mt-1 shrink-0" />
+            <div>
+              <div className="text-white font-bold text-sm">Civic Leadership</div>
+              <div className="text-xs text-gray-400">Project Officer, Volunteer for Bangladesh (VBD)</div>
+              <div className="text-xs text-primary/80 mt-1">10+ SDG Community Initiatives & Village Tutoring</div>
+            </div>
+          </div>
+
+          <div className="border border-gray-800 bg-gray-900/40 p-3 flex items-center gap-2 text-xs text-gray-400">
+            <FaMapMarkerAlt className="text-primary" />
+            <span>Jamalpur, Bangladesh • Available for global university admission</span>
           </div>
         </div>
       </div>
-      {/* contact section */}
-
-      <div className="container mx-auto px-4 my-32">
-        {/* Header */}
-        <div className="flex items-center gap-2 text-3xl font-bold mb-12">
-          <span className="text-primary">#</span>contacts
-          <div className="h-px bg-primary w-20 lg:w-96 ml-4"></div>
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-16 items-start">
-          {/* Left Side - Text Content */}
-          <div className="lg:w-1/2">
-            <p className="text-gray-400 leading-relaxed">
-              I'm interested in front-end development opportunities. However, if
-              you have other request or question, don't hesitate to contact me
-            </p>
-          </div>
-
-          {/* Right Side - Contact Box */}
-          <div className="lg:w-1/2 lg:ml-auto">
-            <div className="border border-gray-600 p-6 max-w-sm">
-              <h3 className="text-white font-semibold mb-4">Message me here</h3>
-
-              <div className="space-y-3">
-                <a
-                  href="https://discordapp.com/users/758631940642439188"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors"
-                >
-                  <FaDiscord className="text-xl" />
-                  <span>Atik#3519</span>
-                </a>
-
-                <a
-                  href="https://wa.me/+8801409119685"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors"
-                >
-                  <IoLogoWhatsapp className="text-xl" />
-                  <span>+880 1409 119685</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    </div>
   );
 };
 

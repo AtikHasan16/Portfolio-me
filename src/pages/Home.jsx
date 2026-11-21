@@ -10,13 +10,13 @@ const Home = () => {
   return (
     <>
       <MetaData
-        title="Atik Hasan | Home"
-        description="Welcome to my portfolio. Here you'll find a collection of my recent projects showcasing my skills in web development, design, and problem-solving."
-        keywords="Atik Hasan, Portfolio, Home, Projects, Web Development, Design, Problem Solving"
-        author="Atik Hasan"
+        title="MD Atik Hasan | Computer Systems & Network Infrastructure Aspirant"
+        description="Academic portfolio, systems engineering projects, and leadership roadmap of MD Atik Hasan for undergraduate admissions and scholarships."
+        keywords="MD Atik Hasan, Computer Engineering, Network Infrastructure, Undergraduate Scholarship, Jamalpur Technical School"
+        author="MD Atik Hasan"
       />
       <PageTransition>
-        <div>
+        <div className="space-y-16">
           <section>
             <Hero />
           </section>
@@ -27,7 +27,6 @@ const Home = () => {
             <Skills />
           </section>
           <section>
-            {/* About and contact section */}
             <AboutMe />
           </section>
         </div>

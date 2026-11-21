@@ -1,14 +1,29 @@
-import React from "react";
+import { useEffect } from "react";
 
-const MetaData = ({ title, description, keywords, author }) => {
+const MetaData = ({ title, description, keywords, author = "MD Atik Hasan" }) => {
+  useEffect(() => {
+    if (title) {
+      document.title = title;
+    }
+
+    if (description) {
+      let metaDesc = document.querySelector('meta[name="description"]');
+      if (!metaDesc) {
+        metaDesc = document.createElement("meta");
+        metaDesc.name = "description";
+        document.head.appendChild(metaDesc);
+      }
+      metaDesc.content = description;
+    }
+  }, [title, description]);
+
   return (
-    <div>
+    <>
       <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
-      <meta name="author" content={author} />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </div>
+      {description && <meta name="description" content={description} />}
+      {keywords && <meta name="keywords" content={keywords} />}
+      {author && <meta name="author" content={author} />}
+    </>
   );
 };
 

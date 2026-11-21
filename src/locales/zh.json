@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "首页",
+    "projects": "项目展示",
+    "community": "社区实践与志愿",
+    "education": "教育背景",
+    "references": "导师推荐",
+    "contacts": "联系方式",
+    "admin": "管理入口"
+  },
+  "hero": {
+    "greeting": "您好，我是",
+    "name": "MD Atik Hasan",
+    "title": "计算机系统与网络工程专业候选人",
+    "subheading": "中等技术教育毕业生，主修计算机运行维护、网络系统及全栈工程开发。",
+    "objective": "寻求攻读计算机工程、网络工程、电信或信息安全方向的本科学位及奖学金。",
+    "viewProjects": "浏览项目",
+    "viewCommunity": "社区影响",
+    "downloadCv": "下载学术简历"
+  },
+  "stats": {
+    "hscRank": "专业年级第 2 名 (100+人)",
+    "sscRank": "专业年级第 3 名 (200+人)",
+    "assetAward": "ASSET 国家技能大赛省级决赛入围",
+    "communityReach": "10+ 联合国SDG实践 (1,000+ 受益人)"
+  },
+  "projects": {
+    "title": "精选项目",
+    "viewAll": "查看全部",
+    "tabAll": "所有项目",
+    "tabAcademic": "学术与系统工程",
+    "tabTechnical": "全栈网络应用",
+    "live": "在线预览",
+    "repo": "源码仓库",
+    "details": "项目详情"
+  },
+  "community": {
+    "title": "社区实践与领导力",
+    "subtitle": "2023年12月至2026年1月青年组织与社区发展工作路线图。",
+    "period": "2023年12月 – 2026年1月",
+    "beneficiaries": "直接受益人数",
+    "sdgLabel": "联合国可持续发展目标",
+    "outcomes": "主要成果"
+  },
+  "education": {
+    "title": "学术档案",
+    "tabFormal": "正规技术教育",
+    "tabAchievements": "荣誉与竞赛成绩",
+    "hscTitle": "高等中学证书 (HSC) — 计算机操作与维护",
+    "sscTitle": "中等学校证书 (SSC) — IT支持与物联网",
+    "institute": "Jamalpur 政府技术学校与学院",
+    "gpa": "绩点 (GPA)",
+    "rank": "年级排名",
+    "subjects": "核心专业课程"
+  },
+  "references": {
+    "title": "学术推荐人",
+    "subtitle": "来自 Jamalpur 政府技术学校的授课导师与技术指导老师。",
+    "contactEmail": "官方邮箱",
+    "confidentialNotice": "电话联系方式已核验，可在正式学术审查时提供。"
+  },
+  "contacts": {
+    "title": "联系与咨询",
+    "subtitle": "欢迎本科奖学金评审委员、大学招生处及学术导师来信交流。",
+    "emailBox": "直接邮件",
+    "linkedInBox": "领英主页",
+    "whatsappBox": "直接沟通",
+    "location": "孟加拉国 贾马尔普尔"
+  },
+  "admin": {
+    "portalTitle": "管理认证中心",
+    "loginNotice": "仅供 Atik Hasan 授权访问。",
+    "emailLabel": "电子邮箱",
+    "secretLabel": "安全访问密钥",
+    "loginBtn": "验证登录",
+    "logoutBtn": "退出登录",
+    "addProject": "添加技术项目",
+    "addCommunity": "添加社区活动"
+  }
+}

@@ -1,120 +1,118 @@
 import React from "react";
-import { FaDiscord, FaGithub, FaLinkedin } from "react-icons/fa";
-import { IoLogoWhatsapp } from "react-icons/io5";
-import { MdEmail } from "react-icons/md";
+import { FaGithub, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from "react-icons/fa";
 import PageTransition from "../Components/PageTransition";
 import MetaData from "../Components/MetaData";
 
 const Contacts = () => {
+
   return (
     <>
       <MetaData
-        title="Atik Hasan | Contacts"
-        description="Welcome to my portfolio. Here you'll find a collection of my recent projects showcasing my skills in web development, design, and problem-solving."
-        keywords="Atik Hasan, Portfolio, Home, Projects, Web Development, Design, Problem Solving"
-        author="Atik Hasan"
+        title="Atik Hasan | Academic Inquiries & Contact"
+        description="Get in touch with MD Atik Hasan for undergraduate admissions, scholarship interviews, or technical collaborations."
+        keywords="Contact Atik Hasan, Email, LinkedIn, Scholarship Inquiries, Jamalpur Bangladesh"
       />
       <PageTransition>
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto px-4 mt-24 mb-24 max-w-5xl">
           {/* Header */}
-          <div className="mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="text-primary">/</span>contacts
-            </h1>
-            <p className="text-gray-400 max-w-2xl">Who am I?</p>
+          <div className="mb-12">
+            <div className="flex items-center gap-3 text-3xl md:text-4xl font-bold mb-3">
+              <span className="text-primary font-mono">/</span>
+              <h1 className="text-white">academic-inquiries</h1>
+            </div>
+            <p className="text-gray-400 font-mono text-sm max-w-2xl leading-relaxed">
+              Available for formal correspondence regarding undergraduate admissions, scholarship evaluations, university interviews, and collaborative engineering projects.
+            </p>
           </div>
 
-          {/* Main Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-            {/* Left Side - Description */}
-            <div>
-              <p className="text-gray-300 leading-relaxed">
-                I am a dedicated software developer passionate about crafting
-                efficient and user-friendly applications. I thrive on solving
-                complex problems and am always eager to learn and adapt to new
-                technologies. I'm actively seeking freelance opportunities and
-                collaborations. If you have a project in mind, a question, or
-                just want to connect, please don't hesitate to reach out through
-                any of the provided channels.
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            {/* Left: Message Statement */}
+            <div className="md:col-span-6 space-y-5 text-gray-300 text-sm md:text-base leading-relaxed">
+              <p>
+                Whether you are an admissions officer reviewing my candidacy, a university professor evaluating research alignment, or a fellow student seeking collaboration on open-source systems, I welcome your message.
               </p>
+
+              <div className="border-l-2 border-primary pl-4 font-mono text-xs text-gray-400 space-y-1">
+                <div><strong>Primary Email:</strong> hasan.atik.sn@gmail.com</div>
+                <div><strong>Current Location:</strong> Jamalpur, Bangladesh</div>
+                <div><strong>Time Zone:</strong> UTC+06:00 (Bangladesh Standard Time)</div>
+              </div>
             </div>
 
-            {/* Right Side - Contact Boxes */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              {/* Support Me Box */}
-              <div className="border border-gray-600 p-6 flex-1">
-                <h3 className="text-white font-semibold mb-4">
-                  Support me here
-                </h3>
-                <a
-                  href="https://wa.me/+8801409119685"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-primary transition-colors"
-                >
-                  +8801409119685
-                </a>
-              </div>
-
-              {/* Message Me Box */}
-              <div className="border border-gray-600 p-6 flex-1">
-                <h3 className="text-white font-semibold mb-4">
-                  Message me here
-                </h3>
-                <div className="space-y-3">
-                  <a
-                    href="https://discordapp.com/users/758631940642439188"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors"
-                  >
-                    <FaDiscord className="text-xl" />
-                    <span>Atik#3519</span>
-                  </a>
-                  <a
-                    href="mailto:mhasan16atik@gmail.com"
-                    className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors"
-                  >
-                    <MdEmail className="text-xl" />
-                    <span>mhasan16atik@gmail.com</span>
-                  </a>
+            {/* Right: Contact Channels */}
+            <div className="md:col-span-6 space-y-4 font-mono text-sm">
+              {/* Email Card */}
+              <a
+                href="mailto:hasan.atik.sn@gmail.com"
+                className="border border-gray-800 bg-gray-900/40 p-5 flex items-center justify-between hover:border-primary transition-all group block"
+              >
+                <div className="flex items-center gap-4">
+                  <FaEnvelope className="text-primary text-xl" />
+                  <div>
+                    <span className="text-xs text-gray-500 block uppercase">Official Email</span>
+                    <span className="text-white group-hover:text-primary transition-colors text-xs md:text-sm font-bold">
+                      hasan.atik.sn@gmail.com
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
+                <span className="text-primary text-xs">Send ↗</span>
+              </a>
 
-          {/* All Media Section */}
-          <div className="mt-24">
-            <h2 className="text-3xl font-bold mb-8">
-              <span className="text-primary">#</span>all-media
-            </h2>
-            <div className="flex flex-wrap gap-6">
+              {/* LinkedIn Card */}
+              <a
+                href="https://www.linkedin.com/in/hasan-md-atik/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-gray-800 bg-gray-900/40 p-5 flex items-center justify-between hover:border-primary transition-all group block"
+              >
+                <div className="flex items-center gap-4">
+                  <FaLinkedin className="text-primary text-xl" />
+                  <div>
+                    <span className="text-xs text-gray-500 block uppercase">Professional Network</span>
+                    <span className="text-white group-hover:text-primary transition-colors text-xs md:text-sm font-bold">
+                      linkedin.com/in/hasan-md-atik
+                    </span>
+                  </div>
+                </div>
+                <span className="text-primary text-xs">Connect ↗</span>
+              </a>
+
+              {/* WhatsApp / Messaging Card */}
+              <a
+                href="https://wa.me/8801409119685"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-gray-800 bg-gray-900/40 p-5 flex items-center justify-between hover:border-primary transition-all group block"
+              >
+                <div className="flex items-center gap-4">
+                  <FaWhatsapp className="text-primary text-xl" />
+                  <div>
+                    <span className="text-xs text-gray-500 block uppercase">Direct Messaging</span>
+                    <span className="text-white group-hover:text-primary transition-colors text-xs md:text-sm font-bold">
+                      +880 1409-119685
+                    </span>
+                  </div>
+                </div>
+                <span className="text-primary text-xs">Chat ↗</span>
+              </a>
+
+              {/* GitHub Card */}
               <a
                 href="https://github.com/AtikHasan16"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors text-lg"
+                className="border border-gray-800 bg-gray-900/40 p-5 flex items-center justify-between hover:border-primary transition-all group block"
               >
-                <FaGithub className="text-2xl" />
-                <span>@AtikHasan16</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/md-atik-hasan-a4b1b5335/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors text-lg"
-              >
-                <FaLinkedin className="text-2xl" />
-                <span>MD Atik Hasan</span>
-              </a>
-              <a
-                href="https://wa.me/+8801409119685"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors text-lg"
-              >
-                <IoLogoWhatsapp className="text-2xl" />
-                <span>+880 1409 119685</span>
+                <div className="flex items-center gap-4">
+                  <FaGithub className="text-primary text-xl" />
+                  <div>
+                    <span className="text-xs text-gray-500 block uppercase">Code Repositories</span>
+                    <span className="text-white group-hover:text-primary transition-colors text-xs md:text-sm font-bold">
+                      github.com/AtikHasan16
+                    </span>
+                  </div>
+                </div>
+                <span className="text-primary text-xs">Visit ↗</span>
               </a>
             </div>
           </div>
